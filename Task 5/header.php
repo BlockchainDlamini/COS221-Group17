@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-    <title>Bootstrap 5 Example</title>
     <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/header.css">
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 
@@ -14,7 +14,7 @@
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img id="companyLogo" src="img/companyLogo.png" alt="" style="width:50px;">
+                    <img id="companyLogo" class="rounded-5" src="img/companyLogo.png" alt="" style="width:50px;">
                     <label id="companyName" for="companyLogo">GWS</label>
                 </a>
 

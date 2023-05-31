@@ -1,0 +1,23 @@
+#emailNewsLetter {
+    height: 40px;
+    line-height: 40px;
+    padding: 0;
+    padding-left: 10px;
+}
+
+#emailNewsLetterLabel {
+    top: 5px;
+    padding: 0px 3px 0px 3px;
+    margin: 0;
+    left: 15px;
+    height: min-content;
+}
+
+#emailNewsLetter~label::after {
+    background-color: var(--bs-dark);
+}
+
+.form-floating>.form-control:focus~label,
+.form-floating>.form-control:not(:placeholder-shown)~label {
+    transform: scale(0.85) translateY(-1.25rem) translateX(0.15rem);
+}

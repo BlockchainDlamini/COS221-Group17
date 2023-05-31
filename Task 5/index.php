@@ -10,7 +10,7 @@
 
 <body>
     <?php include_once "header.php"; ?>
-    
+
     <main>
         <select id="winesort" value="Name">
             <option value="Name">Name</option>
@@ -155,9 +155,7 @@
 
 
 
-
-
-
+    <?php include_once "footer.php"; ?>
 </body>
 
 </html>
