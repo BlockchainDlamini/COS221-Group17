@@ -2,10 +2,7 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/footer.css">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
@@ -160,6 +157,8 @@
     </footer>
     <!-- Footer -->
 
-    <script src="css/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="css/bootstrap-5.3.0-alpha3/js/bootstrap.min.js"></script>
     <script src="css/fontawesome/js/all.min.js"></script>
 </body>
+
+</html>
