@@ -2,7 +2,7 @@ const url = 'https://wheatley.cs.up.ac.za/u22557858/COS221HA/GetWineBottles.php'
 const data = {
     "Type" : "GetWines",
     "Return" : ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "brandName"],
-    "Limit" : 7,
+    "Limit" : 15,
     "Sort" : "name"
 };
 
