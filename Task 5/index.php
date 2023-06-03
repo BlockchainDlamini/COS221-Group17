@@ -179,6 +179,7 @@
     <script src="css/jquery-3.7.0/jquery-3.7.0.min.js"></script>
     <script src="css/bootstrap-3.3.2/dist/js/bootstrap.min.js"></script>
     <script src="css/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src="JS/Wines.js"></script>
 
     <script src="css/mod/styling.js"></script>
 
