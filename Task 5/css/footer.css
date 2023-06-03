@@ -1,3 +1,7 @@
+footer{
+    display: none;
+}
+
 #emailNewsLetter {
     height: 40px;
     line-height: 40px;

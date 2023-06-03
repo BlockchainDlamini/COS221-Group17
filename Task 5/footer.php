@@ -157,6 +157,13 @@
     </footer>
     <!-- Footer -->
 
+
+    
+
+    <!-- for using jquery -->
+    <script src="css/jquery-3.7.0/jquery-3.7.0.min.js"></script>
+    <!-- for using jquery -->
+
     <script src="css/bootstrap-5.3.0-alpha3/js/bootstrap.min.js"></script>
     <script src="css/fontawesome/js/all.min.js"></script>
 </body>

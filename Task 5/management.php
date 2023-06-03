@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    
+
     <title>Management</title>
 </head>
+
 <body>
-    
-    <table border = "1px">
+    <?php include_once "header.php"; ?>
+
+    <table border="1px">
         <tr>
             <th>Name</th>
             <th>Region</th>
@@ -18,14 +21,14 @@
         </tr>
     </table>
     <br>
-    <button id = "btnupdate">Update</button>
-    <button id = "btndelete">Delete</button>
-    <button id = "btninsert">Insert</button>
+    <button id="btnupdate">Update</button>
+    <button id="btndelete">Delete</button>
+    <button id="btninsert">Insert</button>
 
     <br>
     <br>
     <br>
-    <table border = "1px">
+    <table border="1px">
         <tr>
             <th>Name</th>
             <th>Year</th>
@@ -37,9 +40,11 @@
         </tr>
     </table>
     <br>
-    <button id = "btnupdate">Update</button>
-    <button id = "btndelete">Delete</button>
-    <button id = "btninsert">Insert</button>
+    <button id="btnupdate">Update</button>
+    <button id="btndelete">Delete</button>
+    <button id="btninsert">Insert</button>
 
+    <?php include_once "footer.php"; ?>
 </body>
+
 </html>

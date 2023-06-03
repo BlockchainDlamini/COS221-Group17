@@ -25,33 +25,35 @@
                 <div class="collapse navbar-collapse" id="mynavbar">
                     <ul class="nav navbar-dark bg-dark nav-pills nav-fill gap-2 p-1 small bg-secondary rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-gray-100);">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active rounded-5" href="index.php" type="button" role="tab" aria-selected="true">Wines</a>
+                            <a id="one" class="nav-link <?= $wines; ?> rounded-5" href="index.php" type="button" role="tab" aria-selected="<?= $winesSelected; ?>">Wines</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link  rounded-5" href="winery.php" type="button" role="tab" aria-selected="false">Wineries</a>
+                            <a id="two" class="nav-link <?= $wineries; ?> rounded-5" href="winery.php" type="button" role="tab" aria-selected="<?= $wineriesSelected; ?>">Wineries</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link  rounded-5" href="suggestions.php" type="button" role="tab" aria-selected="false">Suggestions</a>
+                            <a class="nav-link <?= $suggestions; ?> rounded-5" href="suggestions.php" type="button" role="tab" aria-selected="<?= $suggestionsSelected; ?>">Suggestions</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link  rounded-5" href="" type="button" role="tab" aria-selected="false">Contact Us</a>
+                            <a class="nav-link <?= $about; ?> rounded-5" href="about.php" type="button" role="tab" aria-selected="<?= $aboutSelected; ?>">About Us</a>
                         </li>
                         <li class="nav-item signupLogin" role="presentation">
-                            <a class="nav-link  rounded-5" href="" type="button" role="tab" aria-selected="false">Login</a>
+                            <a class="nav-link rounded-5" href="login.php" type="button" role="tab" aria-selected="false">Login</a>
                         </li>
                         <li class="nav-item signupLogin" role="presentation">
-                            <a class="nav-link  rounded-5" href="" type="button" role="tab" aria-selected="false">Signup</a>
+                            <a class="nav-link rounded-5" href="signup.php" type="button" role="tab" aria-selected="false">Signup</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <div class="d-flex searchBarDiv">
-            <input class="form-control me-2" type="text" placeholder="Search">
-            <button class="btn btn-primary" type="button">Search</button>
+        <div id="searchBarCollapse" class="collapse">
+            <div class="searchBarDiv d-flex">
+                <input class="form-control me-2" type="text" placeholder="Search">
+                <button class="btn btn-primary" type="button">Search</button>
+            </div>
         </div>
-    </header>
 
+    </header>
 
 </body>
 
