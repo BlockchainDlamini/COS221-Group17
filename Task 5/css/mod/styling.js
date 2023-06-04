@@ -1,13 +1,11 @@
 showSearchBar();
-const filterSelects = document.querySelectorAll(".filterDivs>select");
-const sortSelect = document.getElementById("winesort");
-const sortOrderToggle = "fa-solid fa-arrow-up-z-a fa-lg fa-solid fa-arrow-down-z-a fa-lg";
 
-for (var i = 0; i < filterSelects.length; i++) {
-    filterSelects[i].classList.add("filterSelectsStyling");
-}
+const sortOrderToggle = "fa-solid fa-arrow-up-z-a fa-2xl fa-solid fa-arrow-down-z-a fa-2xl";
 
-sortSelect.classList.add("sort");
+$('.filterDivs>select').addClass("filterSelectsStyling");
+
+$('#winesort').addClass("sort");
+$('#sortOrder').addClass("sortOrder");
 
 
 function toggleSortOrder() {
@@ -43,4 +41,31 @@ function showBody() {
     $('.wrapper').fadeIn(300, function () {
         $('footer').slideDown();
     });
+}
+
+
+function backToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+
+
+window.onscroll = function () {
+    scrollFunction();
+};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        $('#searchBarCollapse').collapse('hide');
+        $('#scrollToTopBtn').fadeIn();
+    }
+    else {
+        $('#searchBarCollapse').collapse('show');
+        $('#scrollToTopBtn').fadeOut();
+    }
+}
+
+function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
 }

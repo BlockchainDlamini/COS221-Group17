@@ -5412,7 +5412,9 @@ fieldset:disabled .btn {
     display: block;
     padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
     font-size: var(--bs-pagination-font-size);
-    color: var(--bs-pagination-color);
+    /* //change colour of pgination links default nator */
+    /* color: var(--bs-pagination-color); */
+    color: rgb(9, 9, 142);
     text-decoration: none;
     background-color: var(--bs-pagination-bg);
     border: var(--bs-pagination-border-width) solid var(--bs-pagination-border-color);
@@ -5442,10 +5444,13 @@ fieldset:disabled .btn {
 
 .active>.page-link,
 .page-link.active {
+    /* change colour and background of pagination nator */
     z-index: 3;
     color: var(--bs-pagination-active-color);
-    background-color: var(--bs-pagination-active-bg);
-    border-color: var(--bs-pagination-active-border-color)
+    /* background-color: var(--bs-pagination-active-bg); */
+    background-color: rgb(81, 81, 107);
+    /* border-color: var(--bs-pagination-active-border-color); */
+    border-color: rgb(143, 129, 129);
 }
 
 .disabled>.page-link,
@@ -5478,6 +5483,7 @@ fieldset:disabled .btn {
 }
 
 .pagination-sm {
+    /* for chnging size of pagination nator */
     --bs-pagination-padding-x: 0.5rem;
     --bs-pagination-padding-y: 0.25rem;
     --bs-pagination-font-size: 0.875rem;
@@ -5511,6 +5517,36 @@ fieldset:disabled .btn {
     position: relative;
     top: -1px
 }
+
+.btn-default .badge {
+    color: #fff;
+    background-color: #333;
+  }
+
+.btn-primary .badge {
+    color: #337ab7;
+    background-color: #fff;
+  }
+
+.btn-success .badge {
+    color: #5cb85c;
+    background-color: #fff;
+  }
+
+.btn-info .badge {
+    color: #5bc0de;
+    background-color: #fff;
+  }
+
+.btn-warning .badge {
+    color: #f0ad4e;
+    background-color: #fff;
+  }
+
+.btn-danger .badge {
+    color: #d9534f;
+    background-color: #fff;
+  }
 
 .alert {
     --bs-alert-bg: transparent;
