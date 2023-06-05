@@ -559,7 +559,7 @@
                                 </div>
                                 <div>
                                     <label for="">Year:</label>
-                                    <label id="year1" class="wineDetails">2025</label>
+                                    <label id="year10" class="wineDetails">2025</label>
                                 </div>
                                 <div>
                                     <label for="">Awards:</label>
