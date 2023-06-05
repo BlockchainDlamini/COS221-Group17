@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<?php
+    <?php
     include_once "navigation.php";
     $wineries = "active";
     $wineriesSelected = "true";
@@ -59,6 +59,8 @@
             <p>Region: Franschoek<br>Rating: 5 stars</p>
         </div>
     </div>
+
+
 
     <?php include_once "footer.php"; ?>
 

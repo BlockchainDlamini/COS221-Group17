@@ -9,7 +9,8 @@ footer{
     padding-left: 10px;
 }
 
-.form-floating>.form-control~label {
+#emailNewsLetterLabel {
+    width:min-content;
     top: 5px;
     padding: 0px 3px 0px 3px;
     margin: 0;
@@ -19,5 +20,6 @@ footer{
 
 .form-floating>.form-control:focus~label,
 .form-floating>.form-control:not(:placeholder-shown)~label {
-    transform: scale(0.85) translateY(-1.23rem) translateX(0.15rem);
+    opacity: 75% !important;
+    transform: scale(0.85) translateY(-1.23rem) translateX(0.15rem) !important;
 }

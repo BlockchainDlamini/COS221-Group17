@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="css/footer.css">
+    <!-- <link rel="stylesheet" href="mdb.min.css"> -->
 </head>
 
 <body>
@@ -12,24 +13,40 @@
         <div class="container p-4 pb-0">
             <!-- Section: Social media -->
             <section class="mb-4">
-                <!-- Facebook -->
+
                 <!-- <label style="margin-right:30px;">Get in touch with us:</label> -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
+
+                <!-- Facebook -->
+                <a href="#!">
+                    <button class="btn btn-outline-light btn-floating m-1" role="button"><i class="fab fa-facebook-f"></i></button>
+                </a>
 
                 <!-- Twitter -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-twitter"></i></a>
+                <a href="#!">
+                    <button class="btn btn-outline-light btn-floating m-1" role="button"><i class="fab fa-twitter"></i></button>
+                </a>
 
                 <!-- Google -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-google"></i></a>
+                <a href="#!">
+                    <button class="btn btn-outline-light btn-floating m-1" role="button"><i class="fab fa-google"></i></button>
+                </a>
 
                 <!-- Instagram -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-instagram"></i></a>
+                <a href="#!">
+                    <button class="btn btn-outline-light btn-floating m-1" role="button"><i class="fab fa-instagram"></i></button>
+                </a>
 
                 <!-- Linkedin -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#!">
+                    <button class="btn btn-outline-light btn-floating m-1" role="button"><i class="fab fa-linkedin-in"></i></button>
+
+                </a>
 
                 <!-- Github -->
-                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-github"></i></a>
+                <a href="#!">
+                    <button class="btn btn-outline-light btn-floating m-1" role="button"><i class="fab fa-github"></i></button>
+                </a>
+
             </section>
             <!-- Section: Social media -->
 
@@ -158,13 +175,13 @@
     <!-- Footer -->
 
 
-    
+
 
     <!-- for using jquery -->
     <script src="css/jquery-3.7.0/jquery-3.7.0.min.js"></script>
     <!-- for using jquery -->
 
-    <script src="css/bootstrap-5.3.0-alpha3/js/bootstrap.min.js"></script>
+    <script src="css/mdb5-6.3.1/js/mdb.min.js"></script>
     <script src="css/fontawesome/js/all.min.js"></script>
 </body>
 

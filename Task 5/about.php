@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<?php
+    <?php
     include_once "navigation.php";
     $about = "active";
     $aboutSelected = "true";
@@ -16,13 +16,13 @@
 
     <div class="carouselHolder">
         <p class="h2 text-center text-white">Wine Making</p>
-        <div id="carouselWineMaking" class="carousel slide" data-bs-ride="true">
+        <div id="carouselWineMaking" class="carousel slide" data-mdb-ride="true">
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselWineMaking" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselWineMaking" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselWineMaking" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#carouselWineMaking" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                <button type="button" data-bs-target="#carouselWineMaking" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                <button type="button" data-mdb-target="#carouselWineMaking" data-mdb-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-mdb-target="#carouselWineMaking" data-mdb-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-mdb-target="#carouselWineMaking" data-mdb-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-mdb-target="#carouselWineMaking" data-mdb-slide-to="3" aria-label="Slide 4"></button>
+                <button type="button" data-mdb-target="#carouselWineMaking" data-mdb-slide-to="4" aria-label="Slide 5"></button>
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -64,16 +64,17 @@
                     </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselWineMaking" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-mdb-target="#carouselWineMaking" data-mdb-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselWineMaking" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-mdb-target="#carouselWineMaking" data-mdb-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
     </div>
+
 
     <?php include_once "footer.php"; ?>
     <script>
