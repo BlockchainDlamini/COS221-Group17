@@ -19,6 +19,7 @@ function prepareForUpdate(updateButton) {
     for (var i = 1; i < cols.length - 1; i++) {
         modal[m++].value = cols[i].innerHTML;
     }
+
     const brandID = updateButton.getAttribute("data-brandID");
     sessionStorage.setItem("brandID", brandID); //save the brandID to session storage
     console.log("BrandID: " + brandID);
@@ -31,7 +32,6 @@ function prepareForUpdate(updateButton) {
         var emailInput = document.getElementById("formEmail").value;
         var streetAddressInput = document.getElementById("formAddress").value;
         var postalCodeInput = document.getElementById("formPostalCode").value;
-
 
         if (nameInput !== "") 
             formData["name"] = nameInput;
@@ -100,3 +100,39 @@ function prepareForInsert() {
         }
     });
 }
+
+const data = {
+    "Type": "GetBrand", 
+    "Return": "*", 
+    "Limit": 11
+};
+
+fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa('u22557858:NeimanAris123#')
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(result);
+    var divElement = document.querySelector(".modal-body");
+    divElement.style.display = "none";
+    document.getElementById("btnDone").style.display = "none";
+    alert("Update successful!");
+    const dataArray = data.data.map(({ brandID, ...brand }) => brand);
+    dataArray.forEach((brand) => {
+        var row = generateRow(brand.brandID);
+        getElementsById("tableBody").appen
+    })
+    
+  })
+  .catch(error => {
+    console.error(error);
+    var divElement = document.querySelector(".modal-body");
+    divElement.style.display = "none";
+    document.getElementById("btnDone").style.display = "none";
+    alert("Update failed!");
+  });
