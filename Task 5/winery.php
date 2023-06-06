@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Wineries</title>
+    <title>GWS - Wines</title>
     <link rel="stylesheet" href="css/index.css">
     <link href="css/mod/bootstrap-3.3.2/css/bootstrapDropdown.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css">
@@ -15,8 +15,8 @@
 <body>
     <?php
     include_once "navigation.php";
-    $wineries = "active";
-    $wineriesSelected = "true";
+    $wines = "active";
+    $winesSelected = "true";
     include_once "header.php";
     ?>
 
@@ -65,9 +65,7 @@
                     <div class="sortGroup btn-group" role="group" aria-label="Sort Wines">
                         <select id="winesort" class="selectpicker">
                             <option value="Name" selected>Name</option>
-                            <option value="Age">Age</option>
-                            <option value="Alchohol %">Alcohol %</option>
-                            <option value="Quality">Quality</option>
+                         
                             <option value="Rating">Rating</option>
                         </select>
 
@@ -105,13 +103,20 @@
                         <img class="card-img-top" src="img/chamonixestate.jpg" style="width:400px;height:200px;margin:auto">
                             <div class="card-body">
                             <h1>Chamonix Estate</h1>
-                                <label>Region: Franschoek</label>
+                                <label>Region: </label>
+                                <label id = "region">Franschoek</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Rating: </label>
+                                <label id = "rating">5 stars</label>
                                 <br>
-                                <label>Region: Franschoek</label>
+                                <label>Email: </label>
+                                <label id = "email">john123@exmaple.com</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Postal Code: </label>
+                                <label id = "postalcode">1234</label>
+                                <br>
+                                <label>Phone Number: </label>
+                                <label id = "phonenumber">061 382 1320</label>
                             </div>
                         </div>
                     </div>
@@ -121,13 +126,20 @@
                             <img class="card-img-top" src="img/chamonixestate.jpg" style="width:400px;height:200px;margin:auto">
                             <div class="card-body">
                                 <h1>Chamonix Estate</h1>
-                                <label>Region: Franschoek</label>
+                                <label>Region: </label>
+                                <label id = "region">Franschoek</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Rating: </label>
+                                <label id = "rating">5 stars</label>
                                 <br>
-                                <label>Region: Franschoek</label>
+                                <label>Email: </label>
+                                <label id = "email">john123@exmaple.com</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Postal Code: </label>
+                                <label id = "postalcode">1234</label>
+                                <br>
+                                <label>Phone Number: </label>
+                                <label id = "phonenumber">061 382 1320</label>
                             </div>
                         </div>
                     </div>
@@ -141,13 +153,20 @@
                             <img class="card-img-top" src="img/chamonixestate.jpg" style="width:400px;height:200px;margin:auto">
                             <div class="card-body">
                                 <h1>Chamonix Estate</h1>
-                                <label>Region: Franschoek</label>
+                                <label>Region: </label>
+                                <label id = "region">Franschoek</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Rating: </label>
+                                <label id = "rating">5 stars</label>
                                 <br>
-                                <label>Region: Franschoek</label>
+                                <label>Email: </label>
+                                <label id = "email">john123@exmaple.com</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Postal Code: </label>
+                                <label id = "postalcode">1234</label>
+                                <br>
+                                <label>Phone Number: </label>
+                                <label id = "phonenumber">061 382 1320</label>
                             </div>
                         </div>
                     </div>
@@ -157,47 +176,20 @@
                             <img class="card-img-top" src="img/chamonixestate.jpg" style="width:400px;height:200px;margin:auto">
                             <div class="card-body">
                                 <h1>Chamonix Estate</h1>
-                                <label>Region: Franschoek</label>
+                                <label>Region: </label>
+                                <label id = "region">Franschoek</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Rating: </label>
+                                <label id = "rating">5 stars</label>
                                 <br>
-                                <label>Region: Franschoek</label>
+                                <label>Email: </label>
+                                <label id = "email">john123@exmaple.com</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="card border-light mb-3">
-                            <img class="card-img-top" src="img/chamonixestate.jpg" style="width:400px;height:200px;margin:auto">
-                            <div class="card-body">
-                                <h1>Chamonix Estate</h1>
-                                <label>Region: Franschoek</label>
+                                <label>Postal Code: </label>
+                                <label id = "postalcode">1234</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
-                                <br>
-                                <label>Region: Franschoek</label>
-                                <br>
-                                <label>Rating: 5 stars</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card border-light mb-3">
-                            <img class="card-img-top" src="img/chamonixestate.jpg" style="width:400px;height:200px;margin:auto">
-                            <div class="card-body">
-                                <h1>Chamonix Estate</h1>
-                                <label>Region: Franschoek</label>
-                                <br>
-                                <label>Rating: 5 stars</label>
-                                <br>
-                                <label>Region: Franschoek</label>
-                                <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Phone Number: </label>
+                                <label id = "phonenumber">061 382 1320</label>
                             </div>
                         </div>
                     </div>
@@ -209,13 +201,20 @@
                             <img class="card-img-top" src="img/chamonixestate.jpg" style="width:400px;height:200px;margin:auto">
                             <div class="card-body">
                                 <h1>Chamonix Estate</h1>
-                                <label>Region: Franschoek</label>
+                                <label>Region: </label>
+                                <label id = "region">Franschoek</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Rating: </label>
+                                <label id = "rating">5 stars</label>
                                 <br>
-                                <label>Region: Franschoek</label>
+                                <label>Email: </label>
+                                <label id = "email">john123@exmaple.com</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Postal Code: </label>
+                                <label id = "postalcode">1234</label>
+                                <br>
+                                <label>Phone Number: </label>
+                                <label id = "phonenumber">061 382 1320</label>
                             </div>
                         </div>
                     </div>
@@ -225,13 +224,67 @@
                             <img class="card-img-top" src="img/chamonixestate.jpg" style="width:400px;height:200px;margin:auto">
                             <div class="card-body">
                                 <h1>Chamonix Estate</h1>
-                                <label>Region: Franschoek</label>
+                                <label>Region: </label>
+                                <label id = "region">Franschoek</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Rating: </label>
+                                <label id = "rating">5 stars</label>
                                 <br>
-                                <label>Region: Franschoek</label>
+                                <label>Email: </label>
+                                <label id = "email">john123@exmaple.com</label>
                                 <br>
-                                <label>Rating: 5 stars</label>
+                                <label>Postal Code: </label>
+                                <label id = "postalcode">1234</label>
+                                <br>
+                                <label>Phone Number: </label>
+                                <label id = "phonenumber">061 382 1320</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="card border-light mb-3">
+                            <img class="card-img-top" src="img/chamonixestate.jpg" style="width:400px;height:200px;margin:auto">
+                            <div class="card-body">
+                                <h1>Chamonix Estate</h1>
+                                <label>Region: </label>
+                                <label id = "region">Franschoek</label>
+                                <br>
+                                <label>Rating: </label>
+                                <label id = "rating">5 stars</label>
+                                <br>
+                                <label>Email: </label>
+                                <label id = "email">john123@exmaple.com</label>
+                                <br>
+                                <label>Postal Code: </label>
+                                <label id = "postalcode">1234</label>
+                                <br>
+                                <label>Phone Number: </label>
+                                <label id = "phonenumber">061 382 1320</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card border-light mb-3">
+                            <img class="card-img-top" src="img/chamonixestate.jpg" style="width:400px;height:200px;margin:auto">
+                            <div class="card-body">
+                            <label>Region: </label>
+                                <label id = "region">Franschoek</label>
+                                <br>
+                                <label>Rating: </label>
+                                <label id = "rating">5 stars</label>
+                                <br>
+                                <label>Email: </label>
+                                <label id = "email">john123@exmaple.com</label>
+                                <br>
+                                <label>Postal Code: </label>
+                                <label id = "postalcode">1234</label>
+                                <br>
+                                <label>Phone Number: </label>
+                                <label id = "phonenumber">061 382 1320</label>
                             </div>
                         </div>
                     </div>
