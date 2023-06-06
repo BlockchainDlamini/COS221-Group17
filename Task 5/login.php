@@ -10,7 +10,6 @@
     <link rel="icon" media="(prefers-color-scheme: light)" href="img/favicon-light/favicon-light.ico">
     
     <title>Login</title>
->>>>>>> main
 
     <body>
         <?php
