@@ -1,6 +1,4 @@
-
   //Load wines
-
   const url = 'https://wheatley.cs.up.ac.za/u22557858/COS221HA/GetWineBottles.php';
   const data = {
     "Type": "GetWines",

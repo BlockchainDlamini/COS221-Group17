@@ -19,6 +19,7 @@
     if ($result->num_rows === 1) {
         echo "passed";
         $row = $result->fetch_assoc();
+        $_SESSION['user_type'] = $row['User_Type'];
         $_SESSION['user_id'] = $email;
         $_SESSION['logged_in'] = true;
         header("Location: index.php");
