@@ -311,7 +311,7 @@ function getWinery($decode)
     "brandName" => "Winery.Brand_Name",
     "rating" => "SUM(WineryRating.Rating) AS rating",
     "wineyardID" => "Wineyards.Wineyard_ID" // Add this line
-];
+  ];
 
 
   $sql = "";
@@ -681,17 +681,40 @@ function UpdateUser($decode)
 
   foreach($updateInfo as $key=>$value)
   {
-    if(!array_key_exists($key, $validValues))
-      errorHandling("Incorrect parameters", 400);
-
-    array_push($temp,$validValues[$key] . " = '" . $value . "'");  
+    if(array_key_exists($key, $validValues))
+    {
+      array_push($temp,$validValues[$key] . " = '" . $value . "'");  
+    }      
   }
-  $sql.= implode(",", $temp) . " WHERE User.User_ID = " .$userID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  if(!empty($temp))
+  {
+    $sql.= implode(",", $temp) . " WHERE User.User_ID = " .$userID;
+    if(Connect::instance()->runInsertOrDelteQuery($sql))
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+  }
+  else
+   errorHandling("Please provide update info. Make sure the format is correct.", 400);
+  
 }
 
 function UpdateWine($decode)  
 {
+  $sqlResult = array();
+  $countUpdates = 0;
   $ID = $decode->ID;
   $wineBarrelID = $ID->wineBarrelID;
   $bottleID = $ID->bottleID;
@@ -778,8 +801,10 @@ function UpdateWine($decode)
     if(!empty($temp))
     {
       $sql.= implode(",", $temp) . " WHERE aw.ID = " .$awInfo->awardID;
-      Connect::instance()->runInsertOrDelteQuery($sql);
-    }  
+      $result = Connect::instance()->runInsertOrDelteQuery($sql);
+      array_push($sqlResult, $result);
+      $countUpdates++;
+    }
   }
   
   //Updating varietal
@@ -801,13 +826,17 @@ function UpdateWine($decode)
       if(!empty($temp))
       {
         $sql.= implode(",", $temp) . " WHERE var.ID = " .$varietalID;
-        Connect::instance()->runInsertOrDelteQuery($sql);
+        $result = Connect::instance()->runInsertOrDelteQuery($sql);
+        array_push($sqlResult, $result);
+        $countUpdates++;
       }
     }
     else //changing the varietalID in the Barrel table 
     {
       $sql = "UPDATE WineBarrels AS bar SET bar.Varietal_ID = " .$result[0]["ID"];
-      Connect::instance()->runInsertOrDelteQuery($sql);
+      $result = Connect::instance()->runInsertOrDelteQuery($sql);
+      array_push($sqlResult, $result);
+      $countUpdates++;
     }
   }
 
@@ -823,7 +852,9 @@ function UpdateWine($decode)
   if(!empty($temp))
   {
     $sql.= implode(",", $temp) . " WHERE bar.ID = " .$wineBarrelID;
-    Connect::instance()->runInsertOrDelteQuery($sql);
+    $result = Connect::instance()->runInsertOrDelteQuery($sql);
+    array_push($sqlResult, $result);
+    $countUpdates++;
   }
   
   //Updating Bottle 
@@ -838,7 +869,32 @@ function UpdateWine($decode)
   if(!empty($temp))
   {
     $sql.= implode(",", $temp) . " WHERE bot.Bottle_ID = " .$bottleID;
-    Connect::instance()->runInsertOrDelteQuery($sql);
+    $result = Connect::instance()->runInsertOrDelteQuery($sql);
+    array_push($sqlResult, $result);
+    $countUpdates++;
+  }
+  if(in_array("false",$sqlResult))
+  {
+    $response = [
+      'status' => 'fail',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
+  else
+  {
+    if($countUpdates==0)
+    {
+      errorHandling("Please provide update info. Make sure the format is correct.", 400);
+    }
+    else
+    {
+      $response = [
+      'status' => 'success',
+      'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
   }
 }
 
@@ -874,8 +930,28 @@ function UpdateWinery($decode)
     if(array_key_exists($key, $validValues))
       array_push($temp,$validValues[$key] . " = '" . $value. "'");  
   }
-  $sql.= implode(",", $temp) . " WHERE Winery.Winery_ID = " .$wineryID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  if(!empty($temp))
+  {
+    $sql.= implode(",", $temp) . " WHERE Winery.Winery_ID = " .$wineryID;
+    if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+  }
+  else
+    errorHandling("Please provide update info. Make sure the format is correct.", 400);  
 }
 
 function UpdateWineyard($decode)
@@ -927,8 +1003,28 @@ function UpdateWineyard($decode)
     if(array_key_exists($key, $validValues))
       array_push($temp,$validValues[$key] . " = '" . $value. "'");  
   }
-  $sql.= implode(",", $temp) . " WHERE Wineyards.Wineyard_ID = " .$wineryID ;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  if(!empty($temp))
+  {
+    $sql.= implode(",", $temp) . " WHERE Wineyards.Wineyard_ID = " .$wineryID ;
+    if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+  }
+  else
+    errorHandling("Please provide update info. Make sure the format is correct.", 400);  
 }
 
 function UpdateBrand($decode)
@@ -957,64 +1053,201 @@ function UpdateBrand($decode)
 
     array_push($temp,$validValues[$key] . " = '" . $value. "'");  
   }
-  $sql.= implode(",", $temp) . " WHERE Brand.Brand_ID = " .$brandID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  if(!empty($temp))
+  {
+    $sql.= implode(",", $temp) . " WHERE Brand.Brand_ID = " .$brandID;
+    if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+  }
+  else
+    errorHandling("Please provide update info. Make sure the format is correct.", 400);  
+  
 }
 
 function DeleteUser($decode)
 {
+  if(!isset($decode->ID))
+    errorHandling("The ID parameter is not set", 400);
+
+  $sqlResults = array();
   $id = $decode->ID;
   $sql = "DELETE FROM Brand_Rating WHERE Brand_Rating.User_ID = ".$id ;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
   $sql = "DELETE FROM WineryRating WHERE WineryRating.User_ID = " .$id ;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
   $sql = "DELETE FROM WineRating WHERE WineRating.User_ID = " .$id;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
   $sql = "DELETE FROM WineyardRating WHERE WineyardRating.User_ID= " .$id;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
   $sql = "DELETE FROM Purchases WHERE Purchases.User_ID = " .$id;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
   $sql = "DELETE FROM User WHERE User.User_ID = " .$id;
-  Connect::instance()->runInsertOrDelteQuery($sql);  
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);  
+  array_push($sqlResults,$result);
+
+  if(in_array("false", $sqlResults))
+  {
+    $response = [
+      'status' => 'fail',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
+  else
+  {
+    $response = [
+      'status' => 'sucess',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
 }
 
 function DeleteWine($decode)
 {
+  if(!isset($decode->ID))
+    errorHandling("The ID parameter is not set", 400);
+  $sqlResults = array();
   $wineBottelID = $decode->ID;
   $sql = "DELETE FROM WineRating WHERE WineRating.Bottle_ID= " .$wineBottelID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
   $sql = "DELETE FROM Bottle WHERE Bottle.Bottle_ID= " .$wineBottelID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
+
+  if(in_array("false", $sqlResults))
+  {
+    $response = [
+      'status' => 'fail',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
+  else
+  {
+    $response = [
+      'status' => 'sucess',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
 }
 
 function DeleteWinery($decode)
 {
+  if(!isset($decode->ID))
+    errorHandling("The ID parameter is not set", 400);
+  $sqlResults = array();
   $wineryID= $decode->ID;
 
   $sql = "DELETE FROM WineryRating WHERE WineryRating.Winery_ID= " .$wineryID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
   $sql = "DELETE FROM Wineyards WHERE Wineyards.Winery_ID= " .$wineryID;//Need to delete all the wineyards associated with this winery
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
   $sql = "DELETE FROM Winery WHERE Winery.Winery_ID= " .$wineryID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
+
+  if(in_array("false", $sqlResults))
+  {
+    $response = [
+      'status' => 'fail',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
+  else
+  {
+    $response = [
+      'status' => 'sucess',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
 }
 
 function DeleteWineyard($decode)
 {
+  if(!isset($decode->ID))
+    errorHandling("The ID parameter is not set", 400);
+  $sqlResults = array();
   $wineryID= $decode->ID;
   $sql = "DELETE FROM WineyardRating WHERE WineyardRating.Wineyard_ID= " .$wineryID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
   $sql = "DELETE FROM Wineyards WHERE Wineyards.Wineyard_ID= " .$wineryID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
+
+  if(in_array("false", $sqlResults))
+  {
+    $response = [
+      'status' => 'fail',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
+  else
+  {
+    $response = [
+      'status' => 'sucess',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
 }
 
 function DeleteBrand($decode)
 {
+  if(!isset($decode->ID))
+    errorHandling("The ID parameter is not set", 400);
+  $sqlResults = array();
   $brandID= $decode->ID;
   $sql = "DELETE FROM Brand_Rating WHERE Brand_Rating.Brand_ID= " .$brandID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
   $sql = "DELETE FROM Brand WHERE Brand.Brand_ID= " .$brandID;
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  $result =Connect::instance()->runInsertOrDelteQuery($sql);
+  array_push($sqlResults,$result);
+
+  if(in_array("false", $sqlResults))
+  {
+    $response = [
+      'status' => 'fail',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
+  else
+  {
+    $response = [
+      'status' => 'sucess',
+      'timestamp' => time()
+    ];
+    return json_encode($response);
+  }
 }
 
 function AppendUser($decode)
