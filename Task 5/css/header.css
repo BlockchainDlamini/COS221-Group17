@@ -1,3 +1,27 @@
+#userAccountButton {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin-right: 0 !important;
+    display: none;
+}
+
+.userAccountDiv .dropdown-menu {
+    background-color: rgb(24, 27, 50);
+}
+
+.userAccountDiv .dropdown-item {
+    color: rgb(220, 220, 220) !important;
+}
+
+.userAccountDiv .dropdown-item:hover {
+    background-color: rgb(47, 47, 110) !important;
+    color: white !important;
+}
+
+.hidden{
+    display: none;
+}
+
 header {
     background-color: rgba(164, 164, 164, 0.176);
     margin-bottom: 20px;
