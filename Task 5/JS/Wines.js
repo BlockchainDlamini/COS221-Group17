@@ -2,7 +2,7 @@
   const url = 'https://wheatley.cs.up.ac.za/u22557858/COS221HA/GetWineBottles.php';
   const data = {
     "Type": "GetWines",
-    "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "brandName"],
+    "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "brandName", "awardName", "awardDetails"],
     "Limit": 24,
     "Sort": "name"
   };
@@ -50,6 +50,17 @@
         document.getElementById(`rating${index}`).innerHTML = wine.rating;
         document.getElementById(`price${index}`).innerHTML = `R${wine.price}`;
         document.getElementById(`bottleSize${index}`).innerHTML = wine.bottleSize;
+        if (wine.award === "none")
+          document.getElementById(`awardDetails${index}`).innerHTML =  wine.award;
+        else {
+          for (var i = 0; i < wine.award.length; i++) {
+            var a = wine.award[i];
+            if (i !== wine.award.length - 1)
+              document.getElementById(`awardDetails${index}`).innerHTML =  a.awardName + ", ";
+            else 
+              document.getElementById(`awardDetails${index}`).innerHTML =  a.awardName;
+            }
+        }
       }
     });
   })
@@ -92,14 +103,14 @@
 
     var request1 = {
       "Type": "GetWines",
-      "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating"],
+      "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating", "awardDetails"],
       "Limit": 24,
     }; 
 
     if (Object.keys(array).length !== 0)
         request1 = {
         "Type": "GetWines",
-        "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating"],
+        "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating", "awardDetails"],
         "Limit": 24,
         "Search": array
       };
@@ -137,6 +148,7 @@
             document.getElementById(`rating${index}`).innerHTML = wine.rating;
             document.getElementById(`price${index}`).innerHTML = `R${wine.price}`;
             document.getElementById(`bottleSize${index}`).innerHTML = wine.bottleSize;
+            document.getElementById(`awardDetails${index}`).innerHTML = fillInAwards(wine.awardName, wine.awardDescription, index);
             }
         } else if (minPrice !== '' && maxPrice !== '') {
           if (index < wineDetails.length) {
@@ -149,6 +161,16 @@
               document.getElementById(`rating${index}`).innerHTML = wine.rating;
               document.getElementById(`price${index}`).innerHTML = `R${wine.price}`;
               document.getElementById(`bottleSize${index}`).innerHTML = wine.bottleSize;
+              document.getElementById(`awardDetails${index}`).innerHTML = fillInAwards(wine.awardName, wine.awardDescription, index);
+              if (wine.award === "none")
+                document.getElementById(`awardDetails${index}`).innerHTML =  wine.award;
+              else  {
+                var abody = '';
+                foreach(a, wine.awards)
+                  abody = a.json();
+                document.getElementById(`awardDetails${index}`).innerHTML =  wine.abody.awardName;
+
+              } 
             }
           }
         } else {
@@ -172,7 +194,7 @@
         case "Name":
           request = {
             "Type": "GetWines",
-            "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating"],
+            "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating", "awardDetails"],
             "Limit": 24,
             "Sort" : "name",
             "Order" : sortOrderValue
@@ -181,7 +203,7 @@
         case "Age":
           request = {
             "Type": "GetWines",
-            "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating"],
+            "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating", "awardDetails"],
             "Limit": 24,
             "Sort" : "age",
             "Order" : sortOrderValue 
@@ -190,7 +212,7 @@
         case "Alchohol %":
           request = {
             "Type": "GetWines",
-            "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating"],
+            "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating", "awardDetails"],
             "Limit": 24,
             "Sort" : "alcoholPercent",
             "Order" : sortOrderValue 
@@ -199,7 +221,7 @@
         case "Quality":
           request = {
             "Type": "GetWines",
-            "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating"],
+            "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating", "awardDetails"],
             "Limit": 24,
             "Sort" : "quality",
             "Order" : sortOrderValue 
@@ -208,7 +230,7 @@
         case "Rating":
           request = {
             "Type": "GetWines",
-            "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating"],
+            "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "awardName", "brandName", "rating", "awardDetails"],
             "Limit": 24,
             "Sort" : "rating",
             "Order" : sortOrderValue 
@@ -246,6 +268,10 @@
             document.getElementById(`rating${index}`).innerHTML = wine.rating;
             document.getElementById(`price${index}`).innerHTML = `R${wine.price}`;
             document.getElementById(`bottleSize${index}`).innerHTML = wine.bottleSize;
+            if (wine.award === "none")
+                document.getElementById(`awardDetails${index}`).innerHTML =  wine.award;
+            else   
+              document.getElementById(`awardDetails${index}`).innerHTML =  wine.award.awardName;
           }
         });
       })
@@ -262,7 +288,7 @@ function search() {
   const url = "https://wheatley.cs.up.ac.za/u22557858/COS221HA/GetWineBottles.php";
   const data = {
     Type: "GetWines",
-    Return: ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "brandName"],
+    Return: ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "brandName", "awardName", "awardDetails"],
     Search: {
       name: inputValue
     },
@@ -298,6 +324,11 @@ function search() {
             document.getElementById(`rating${index}`).innerHTML = wine.rating;
             document.getElementById(`price${index}`).innerHTML = `R${wine.price}`;
             document.getElementById(`bottleSize${index}`).innerHTML = wine.bottleSize;
+            document.getElementById(`awardDetails${index}`).innerHTML = fillInAwards(wine.awardName, wine.awardDescription, index);
+            if (wine.award === "none")
+              document.getElementById(`awardDetails${index}`).innerHTML =  wine.award;
+            else   
+              document.getElementById(`awardDetails${index}`).innerHTML =  wine.award.awardName;
           }
         });
       }
