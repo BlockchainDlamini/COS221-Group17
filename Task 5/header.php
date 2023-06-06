@@ -53,8 +53,8 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-sliders fa-lg me-2"></i>Preferences</a></li>
-                                <li><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-pen fa-lg me-2"></i>Admin</a></li>
-                                <li><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-right-from-bracket fa-lg me-2"></i>Logout</a></li>
+                                <li id = "adminOption"><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-pen fa-lg me-2"></i>Admin</a></li>
+                                <li onclick = "logoutfunc();"><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-right-from-bracket fa-lg me-2"></i>Logout</a></li>
                             </ul>
                         </div>
 
