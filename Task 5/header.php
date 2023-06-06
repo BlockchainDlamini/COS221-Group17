@@ -51,7 +51,7 @@
         <div id="searchBarCollapse" class="collapse">
             <div class="searchBarDiv d-flex">
                 <input class="form-control me-2" type="text" placeholder="Search">
-                <button class="btn btn-primary text-center" type="button">Search</button>
+                <button class="btn btn-primary text-center" type="button" onclick="search()">Search</button>
             </div>
         </div>
 
