@@ -120,35 +120,35 @@
                         <form>
                             <div class="mb-3">
                                 <label for="recipient-name" class="col-form-label">Name:</label>
-                                <input type="text" class="form-control modalInputs">
+                                <input type="text" class="form-control modalInputs" id="formName">
                             </div>
                             <div class="mb-3">
                                 <label for="message-text" class="col-form-label">Province:</label>
-                                <input class="form-control modalInputs"></input>
+                                <input class="form-control modalInputs" id="formProvince"></input>
                             </div>
                             <div class="mb-3">
                                 <label for="message-text" class="col-form-label">Phone Number:</label>
-                                <input class="form-control modalInputs"></input>
+                                <input class="form-control modalInputs" id="formNumber"></input>
                             </div>
 
                             <div class="mb-3">
                                 <label for="message-text" class="col-form-label">Email:</label>
-                                <input class="form-control modalInputs"></input>
+                                <input class="form-control modalInputs" id="formEmail"></input>
                             </div>
                             <div class="mb-3">
                                 <label for="message-text" class="col-form-label">Street Address:</label>
-                                <input class="form-control modalInputs"></input>
+                                <input class="form-control modalInputs" id="formAddress"></input>
                             </div>
 
                             <div class="mb-3">
                                 <label for="message-text" class="col-form-label">Postal Code:</label>
-                                <input class="form-control modalInputs"></input>
+                                <input class="form-control modalInputs" id="formPostalCode"></input>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button id= "btnCancel" type="button" class="btn btn-secondary" data-mdb-dismiss="modal">CLOSE</button>
-                        <button id= "btnDone" type="button" class="btn btn-primary" onclick=>DONE</button>
+                        <button id= "btnDone" type="button" class="btn btn-primary" >DONE</button>
                     </div>
                 </div>
             </div>
