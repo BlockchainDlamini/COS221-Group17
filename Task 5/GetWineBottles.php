@@ -35,6 +35,8 @@ if (!isset($decode))
 //Checking the type of request the user made
 if ($decode->Type == "GetWines") 
   echo getWines($decode);
+else if ($decode->Type == "GetVarietals") 
+  echo GetVarietals();
 else if ($decode->Type == "GetWinery") 
   echo getWinery($decode);
 else if ($decode->Type == "GetWineyard") 
@@ -112,9 +114,9 @@ function getWines($decode)
     $awardFlag = true;
 
     $sql .= "SELECT bot.Wine_Barrel_ID AS wineBarrelID, bot.Bottle_Size AS bottleSize, bot.Price AS price, bot.Image_URL AS image_URL, bot.Num_Bottles_Made - bot.Num_Bottles_Sold AS availability, 
-    bar.Name AS name, bar.Year AS year, YEAR(CURDATE()) - bar.Year AS age, bar.Description AS description, bar.Cellaring_Potential AS cellaringPotential, 
+    bar.Name AS name, bar.Year AS year, YEAR(CURDATE()) - bar.Year AS age, bar.Description AS description, bar.Cellaring_Potential AS cellaringPotential, var.ID AS varietalID,
     var.Category_Name AS categoryName, var.Varietal_Name AS varietalName, var.Residual_Sugar AS residualSugar, var.pH AS ph, 
-    var.Alcohol_Percentage AS alcoholPercent, var.Quality AS quality, ver.Brand_Name AS brandName, bar.Winery_Name AS wineryName, bar.Wineyard_Name AS wineyardName, 
+    var.Alcohol_Percentage AS alcoholPercent, var.Quality AS quality, var.Brand_Name AS brandName, bar.Winery_Name AS wineryName, bar.Wineyard_Name AS wineyardName, 
     AVG(rate.Rating) AS rating, bar.Production_Method AS productionMethod, bar.Production_Date AS productionDate
     FROM Bottle AS bot
     JOIN WineBarrels AS bar
@@ -126,7 +128,7 @@ function getWines($decode)
   }
   else //Returing selected stuff
   {
-    $sql .= "SELECT bot.Wine_Barrel_ID AS wineBarrelID, ";
+    $sql .= "SELECT bot.Wine_Barrel_ID AS wineBarrelID, var.ID AS varietalID, ";
     $temp =[];
     
     foreach($decode->Return as $item)
@@ -201,6 +203,7 @@ function getWines($decode)
   if(isset($decode->Limit))
     $sql.= " LIMIT " . $decode->Limit;  
 
+    
   //Run the query via config.php
   $queryResults = Connect::instance()->runSelectQuery($sql);
   if($queryResults) //There is atleast 1 row returned 
@@ -213,6 +216,7 @@ function getWines($decode)
         {
           $sql = "SELECT ";
           $temp = [];
+          array_push($temp, "aw.ID AS awardID");
           array_push($temp, $validReturn["awardName"]);
           array_push($temp, $validReturn["awardYear"]);
           array_push($temp, $validReturn["awardDetails"]);
@@ -269,6 +273,25 @@ function getWines($decode)
   else if ($queryResults==null)
     errorHandling('Error executing the database query.', 500);
 
+}
+
+function GetVarietals()
+{
+  $sql = "SELECT * FROM Varietal";
+  $result = Connect::instance()->runSelectQuery($sql);
+  if(!$result)
+  {
+    return json_encode([
+      'status' => 'fail',
+      'timestamp' => time(),
+      'data' => "No records returned"
+    ]);
+  }
+  return json_encode([
+    'status' => 'sucess',
+    'timestamp' => time(),
+    'data' => $result
+  ]);
 }
 
 function getWinery($decode)
@@ -390,8 +413,6 @@ function getWinery($decode)
     $sql .= " LIMIT " . $decode->Limit;
   }
   
-
-
   // Run the query via config.php
   $queryResults = Connect::instance()->runSelectQuery($sql);
 
@@ -666,7 +687,6 @@ function UpdateUser($decode)
     array_push($temp,$validValues[$key] . " = '" . $value . "'");  
   }
   $sql.= implode(",", $temp) . " WHERE User.User_ID = " .$userID;
-  //echo $sql;
   Connect::instance()->runInsertOrDelteQuery($sql);
 }
 
@@ -675,52 +695,61 @@ function UpdateWine($decode)
   $ID = $decode->ID;
   $wineBarrelID = $ID->wineBarrelID;
   $bottleID = $ID->bottleID;
+  $awardID = $ID->awardID; 
+  $varietalID = $ID->varietalID;
 
   //Checking if the wineBarrel record exists
   $sql = "SELECT * FROM WineBarrels WHERE WineBarrels.ID = ". $wineBarrelID;
-  /*echo $sql;
-  echo"\n";*/
   if(!Connect::instance()->runSelectQuery($sql))
     errorHandling("WineBarrel ID does not exist", 400);
   
   //Checking if the wineBottle record exists
   $sql = "SELECT * FROM Bottle WHERE Bottle.Bottle_ID = ". $bottleID;
-  /*echo $sql;
-  echo"\n";*/
   if(!Connect::instance()->runSelectQuery($sql))
     errorHandling("Bottle ID does not exist", 400);
 
-  $updateInfo = $decode->UpdateInfo;
-
-  if(!isset($decode->UpdateInfo) || json_last_error())
-    errorHandling("Incorrect parameters", 400);
-  
-  //checking that the brand name provided exists
-  if(isset($updateInfo->brandName))
+  //Checking that the awardID exists
+  foreach($awardID as $id)
   {
-    $sql = "SELECT * FROM Brand WHERE Brand.Name = '". $updateInfo->brandName ."'";
-    /*echo $sql;
-    echo"\n";*/
+    $sql = "SELECT * FROM Award WHERE Award.ID = ". $id ;
+    if(!Connect::instance()->runSelectQuery($sql))
+      errorHandling("The awardIDs provided don't exist", 400);
+  }  
+
+  //Checking that the varietalID exists
+  $sql = "SELECT * FROM Varietal WHERE Varietal.ID = ". $varietalID ;
+  if(!Connect::instance()->runSelectQuery($sql))
+     errorHandling("VarietalID provided does not exist", 400);  
+
+  if(!isset($decode->WineUpdateInfo) && !isset($decode->VarUpdateInfo) && !isset($decode->AwardUpdateInfo))
+    errorHandling("Incorrect parameters", 400);
+
+  $wineUpdateInfo = $decode->WineUpdateInfo;
+  $varUpdateInfo = $decode->VarUpdateInfo;
+  $awardUpdateInfo = $decode->AwardUpdateInfo;
+
+  //checking that the brand name provided exists
+  if(isset($varUpdateInfo->brandName))
+  {
+    $sql = "SELECT * FROM Brand WHERE Brand.Name = '". $varUpdateInfo->brandName ."'";
     if(!Connect::instance()->runSelectQuery($sql))
       errorHandling("Brand name provided does not exist. Please insert into brand first", 400);
   }
-  if(isset($updateInfo->wineryName))
+  //Checking that the Winery exists
+  if(isset($wineUpdateInfo->wineryName))
   {
-    $sql = "SELECT * FROM Winery WHERE Winery.Name = '". $updateInfo->wineryName ."'";
-    /*echo $sql;
-    echo"\n";*/
+    $sql = "SELECT * FROM Winery WHERE Winery.Name = '". $wineUpdateInfo->wineryName ."'";
     if(!Connect::instance()->runSelectQuery($sql))
       errorHandling("Winery name provided does not exist. Please insert into winery first", 400);
   }
-  if(isset($updateInfo->wineyardName))
+  //Checking that the Wineyard exists
+  if(isset($wineUpdateInfo->wineyardName))
   {
-    $sql = "SELECT * FROM Wineyards WHERE Wineyards.Wineyard_Name = '". $updateInfo->wineyardName ."'";
-    /*echo $sql;
-    echo"\n";*/
+    $sql = "SELECT * FROM Wineyards WHERE Wineyards.Wineyard_Name = '". $wineUpdateInfo->wineyardName ."'";
     if(!Connect::instance()->runSelectQuery($sql))
       errorHandling("Wineyard name provided does not exist. Please insert into wineyard first", 400);
   }  
-  
+   
   $validBottleValues = array("bottleSize" => "bot.Bottle_Size", "price" => "bot.Price", "image_URL" => "bot.Image_URL", "numBotllesMade"=> "bot.Num_Bottles_Made", 
   "numBotllesSold" =>"bot.Num_Bottles_Sold");
 
@@ -733,99 +762,60 @@ function UpdateWine($decode)
   "alcoholPercent"=> "var.Alcohol_Percentage", "quality"=> "var.Quality","categoryName"=> "var.Category_Name");
 
   //Updating Award
-  $sql = "UPDATE Award AS aw SET ";
-  $temp = [];
-
-  foreach($updateInfo as $key=>$value)
+  foreach($awardUpdateInfo as $awInfo)
   {
-    if(array_key_exists($key, $validAwardValues))
-      array_push($temp,$validAwardValues[$key] . " = '" . $value. "'");  
-  }
-  if(!empty($temp))
-  {
-    $sql.= implode(",", $temp) . " WHERE aw.Wine_Barrel_ID = " .$wineBarrelID;
-    echo $sql;
-    echo "\n";
-    //Connect::instance()->runInsertOrDelteQuery($sql);
-  }  
-
-  //Updating varietal
-  if(isset($updateInfo->varietalName))
-  {
-    $sql = "SELECT * FROM Varietal WHERE Varietal.Varietal_Name = '". $updateInfo->varietalName ."'";
-    /*echo $sql;
-    echo"\n";*/
-    if(!Connect::instance()->runSelectQuery($sql))
+    $sql = "UPDATE Award AS aw SET ";
+    $temp = [];
+    
+    if(!in_array($awInfo->awardID,$awardID))
+      errorHandling("The award being updated does not belong to this wine. Make sure the correct wineID has been passed", 400);
+    
+    foreach($awInfo as $key=>$value)
     {
-      //Inserting into varietal table
-      $sql = "INSERT INTO Varietal(Varietal.Varietal_Name, Varietal.Brand_Name, Varietal.Residual_Sugar, Varietal.pH, Varietal.Alcohol_Percentage, Varietal.Quality,
-      Varietal.Category_Name) VALUES (";
-      $temp = [];
-      if(isset($updateInfo->varietalName))
-        array_push($temp,"'" . $updateInfo->varietalName . "'");  
-      else
-        errorHandling("Not all the information that is required to create the new varietal was given. Either give a varielName of an existing varietal or provide all the information required", 400);
-        if(isset($updateInfo->brandName))
-        array_push($temp,"'" . $updateInfo->brandName . "'");  
-      else
-        errorHandling("Not all the information that is required to create the new varietal was given. Either give a varielName of an existing varietal or provide all the information required", 400);
-        if(isset($updateInfo->residualSugar))
-        array_push($temp,"'" . $updateInfo->residualSugar . "'");  
-      else
-        errorHandling("Not all the information that is required to create the new varietal was given. Either give a varielName of an existing varietal or provide all the information required", 400);
-        if(isset($updateInfo->ph))
-        array_push($temp,"'" . $updateInfo->ph . "'");  
-      else
-        errorHandling("Not all the information that is required to create the new varietal was given. Either give a varielName of an existing varietal or provide all the information required", 400);
-        if(isset($updateInfo->alcoholPercent))
-        array_push($temp,"'" . $updateInfo->alcoholPercent . "'");  
-      else
-        errorHandling("Not all the information that is required to create the new varietal was given. Either give a varielName of an existing varietal or provide all the information required", 400);
-        if(isset($updateInfo->quality))
-        array_push($temp,"'" . $updateInfo->quality . "'");  
-      else
-        errorHandling("Not all the information that is required to create the new varietal was given. Either give a varielName of an existing varietal or provide all the information required", 400);
-        if(isset($updateInfo->categoryName))
-        array_push($temp,"'" . $updateInfo->categoryName . "'");  
-      else
-        errorHandling("Not all the information that is required to create the new varietal was given. Either give a varielName of an existing varietal or provide all the information required", 400);
-      $sql.= implode(",", $temp) . ")";
-      echo $sql;
-      echo "\n";
-      //Connect::instance()->runInsertOrDelteQuery($sql);
+      if(array_key_exists($key, $validAwardValues))
+        array_push($temp,$validAwardValues[$key] . " = '" . $value. "'");  
     }
-    else
+    if(!empty($temp))
     {
-      if(!isset($updateInfo->varietalName) || !isset($updateInfo->brandName))
-      errorHandling("Both the brandName and varietalName needs to be provided when updating varietal info", 400);
-      //Updating Variety 
+      $sql.= implode(",", $temp) . " WHERE aw.ID = " .$awInfo->awardID;
+      Connect::instance()->runInsertOrDelteQuery($sql);
+    }  
+  }
+  
+  //Updating varietal
+  //Fisrt we need to check if it's a update or if the record already exists
+  if(isset($varUpdateInfo->varietalName) && isset($varUpdateInfo->brandName))
+  {
+    $sql = "SELECT Varietal.ID FROM Varietal WHERE Varietal.Varietal_Name = '". $varUpdateInfo->varietalName ."' AND Varietal.brand_Name  = '". $varUpdateInfo->brandName ."'";
+    $result = Connect::instance()->runSelectQuery($sql);
+    if(!$result) //It is an update 
+    {
       $sql = "UPDATE Varietal AS var SET ";
       $temp = [];
-      //Getting the varietal name:
-      $sql = "SELECT Varietal FROM User WHERE User.User_ID = ". $wineBarrelID;
-      $varietalName = Connect::instance()->runInsertOrDelteQuery($sql);
 
-      foreach($updateInfo as $key=>$value)
+      foreach($varUpdateInfo as $key=>$value)
       {
         if(array_key_exists($key, $validVarietyValues))
-          array_push($temp,$validVarietyValues[$key] . " = '" . $value. "'");  
+          array_push($temp,$validVarietyValues[$key] . " = '" . $value . "'");  
       }
       if(!empty($temp))
       {
-        $sql.= implode(",", $temp) . ") WHERE var.Varietal_Name = '" .$updateInfo->varietalName ."' AND var.Brand_Name = '" .$updateInfo->brandName . "'" ;
-        echo $sql;
-        echo "\n";
-        //Connect::instance()->runInsertOrDelteQuery($sql);
+        $sql.= implode(",", $temp) . " WHERE var.ID = " .$varietalID;
+        Connect::instance()->runInsertOrDelteQuery($sql);
       }
     }
-      
+    else //changing the varietalID in the Barrel table 
+    {
+      $sql = "UPDATE WineBarrels AS bar SET bar.Varietal_ID = " .$result[0]["ID"];
+      Connect::instance()->runInsertOrDelteQuery($sql);
+    }
   }
 
   //Updating Barrel   
   $sql = "UPDATE WineBarrels AS bar SET ";
   $temp = [];
 
-  foreach($updateInfo as $key=>$value)
+  foreach($wineUpdateInfo as $key=>$value)
   {
     if(array_key_exists($key, $validBarrelValues))
       array_push($temp,$validBarrelValues[$key] . " = '" . $value . "'");  
@@ -833,25 +823,22 @@ function UpdateWine($decode)
   if(!empty($temp))
   {
     $sql.= implode(",", $temp) . " WHERE bar.ID = " .$wineBarrelID;
-    echo $sql;
-    echo "\n";
-    //Connect::instance()->runInsertOrDelteQuery($sql);
+    Connect::instance()->runInsertOrDelteQuery($sql);
   }
   
   //Updating Bottle 
   $sql = "UPDATE Bottle AS bot SET ";
   $temp = [];
 
-  foreach($updateInfo as $key=>$value)
+  foreach($wineUpdateInfo as $key=>$value)
   {
     if(array_key_exists($key, $validBottleValues))
       array_push($temp,$validBottleValues[$key] . " = '" . $value. "'");  
   }
   if(!empty($temp))
   {
-    $sql.= implode(",", $temp) . " WHERE bot.Bottel_ID = " .$bottleID;
-    echo $sql;
-    //Connect::instance()->runInsertOrDelteQuery($sql);
+    $sql.= implode(",", $temp) . " WHERE bot.Bottle_ID = " .$bottleID;
+    Connect::instance()->runInsertOrDelteQuery($sql);
   }
 }
 
@@ -1005,35 +992,25 @@ function DeleteWinery($decode)
   $wineryID= $decode->ID;
 
   $sql = "DELETE FROM WineryRating WHERE WineryRating.Winery_ID= " .$wineryID;
-  echo $sql;
-  echo "\n";
-  //Connect::instance()->runInsertOrDelteQuery($sql);
-  $sql = "DELETE FROM WineyardRating WHERE WineyardRating.Winery_ID= " .$wineryID;
-  echo $sql;
-  echo "\n";
-  //Connect::instance()->runInsertOrDelteQuery($sql);
-  $sql = "DELETE FROM Wineyards WHERE Wineyards.Winery_ID= " .$wineryID;
-  echo $sql;
-  echo "\n";
-  //Connect::instance()->runInsertOrDelteQuery($sql);
+  Connect::instance()->runInsertOrDelteQuery($sql);
+  $sql = "DELETE FROM Wineyards WHERE Wineyards.Winery_ID= " .$wineryID;//Need to delete all the wineyards associated with this winery
+  Connect::instance()->runInsertOrDelteQuery($sql);
   $sql = "DELETE FROM Winery WHERE Winery.Winery_ID= " .$wineryID;
-  echo $sql;
-  echo "\n";
-  //Connect::instance()->runInsertOrDelteQuery($sql);
+  Connect::instance()->runInsertOrDelteQuery($sql);
 }
 
 function DeleteWineyard($decode)
 {
-  $wineryID= $decode->wineryID;
-  $sql = "DELETE FROM WineyardRating WHERE WineyardRating.Winery_ID= " .$wineryID;
+  $wineryID= $decode->ID;
+  $sql = "DELETE FROM WineyardRating WHERE WineyardRating.Wineyard_ID= " .$wineryID;
   Connect::instance()->runInsertOrDelteQuery($sql);
-  $sql = "DELETE FROM Wineyards WHERE Wineyards.Winery_ID= " .$wineryID;
+  $sql = "DELETE FROM Wineyards WHERE Wineyards.Wineyard_ID= " .$wineryID;
   Connect::instance()->runInsertOrDelteQuery($sql);
 }
 
 function DeleteBrand($decode)
 {
-  $brandID= $decode->brandID;
+  $brandID= $decode->ID;
   $sql = "DELETE FROM Brand_Rating WHERE Brand_Rating.Brand_ID= " .$brandID;
   Connect::instance()->runInsertOrDelteQuery($sql);
   $sql = "DELETE FROM Brand WHERE Brand.Brand_ID= " .$brandID;
