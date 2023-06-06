@@ -52,6 +52,9 @@
                         <th class="h6">Quality</th>
                         <th class="h6">Actions</th>
                     </tr>
+                    <tr class="warning no-result text-center">
+                        <td colspan="13"><i class="fa fa-warning"></i> No result</td>
+                    </tr>
                 </thead>
 
                 <tbody id="tableBody">
@@ -70,10 +73,10 @@
                         <td>molk</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Edit">
+                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
-                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Delete">
+                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Delete">
                                     <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
                                 </button>
                             </div>
@@ -83,11 +86,11 @@
                     <tr>
                         <td colspan="13" class="hiddenRow">
                             <div class="accordian-body collapse" id="demo1">
-                                <table class="table table-sm ms-4">
-                                    <thead>
-                                        <tr class="bg-light">
+                                <table class="table table-sm ms-4 table-striped mb-0">
+                                    <thead class="bg-info text-dark" style="--mdb-bg-opacity:0.19;">
+                                        <tr>
                                             <th>Description</th>
-                                            <th>Vineyard</th>
+                                            <th>Wineyard</th>
                                             <th>Award</th>
                                             <th>Year Awarded</th>
                                             <th>Award Details</th>
@@ -139,10 +142,10 @@
                         <td>mol</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Edit">
+                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
-                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Delete">
+                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Delete">
                                     <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
                                 </button>
                             </div>
@@ -152,9 +155,9 @@
                     <tr>
                         <td colspan="13" class="hiddenRow">
                             <div class="accordian-body collapse" id="demo2">
-                                <table class="table table-sm ms-4">
-                                    <thead>
-                                        <tr class="bg-light">
+                                <table class="table table-sm ms-4 table-striped mb-0">
+                                    <thead class="bg-info text-dark" style="--mdb-bg-opacity:0.19;">
+                                        <tr>
                                             <th>Description</th>
                                             <th>Vineyard</th>
                                             <th>Award</th>
@@ -200,7 +203,7 @@
 
             <div class="container collapse collapsible">
                 <div class="d-flex justify-content-center">
-                    <button type="button" style="width:30px;height:30px" class="btn btn-floating" data-mdb-toggle="modal" data-mdb-target="#winesModal"><i class="fa-solid fa-circle-plus fa-lg" style="color: #0cd434;width:30px;height:30px"></i></button>
+                    <button type="button" onclick="prepareForInsert()" style="width:30px;height:30px" class="btn btn-floating" data-mdb-toggle="modal" data-mdb-target="#winesModal"><i class="fa-solid fa-circle-plus fa-lg" style="color: #0cd434;width:30px;height:30px"></i></button>
                 </div>
             </div>
 

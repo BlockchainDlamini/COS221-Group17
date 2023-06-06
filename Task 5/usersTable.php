@@ -37,42 +37,49 @@
                 </caption>
                 <thead class="bg-light">
                     <tr>
-                        <th class="h6" style="min-width:5px !important;">#</th>
-                        <th class="h6">First Name</th>
-                        <th class="h6">Last Name</th>
+                        <th class="h6 ps-3">Name</th>
                         <th class="h6">Department</th>
-                        <th class="h6">User Type</th>
-                        <th class="h6">Email</th>
                         <th class="h6">Street Address</th>
                         <th class="h6">Province</th>
+                        <th class="h6">Type</th>
                         <th class="h6">Postal Code</th>
-                        <th class="h6">Password</th>
                         <th class="h6">Credentials</th>
+                        <th class="h6">Password</th>
                         <th class="h6">Preferences</th>
                         <th class="h6">Actions</th>
+                    </tr>
+                    <tr class="warning no-result text-center">
+                        <td colspan="10"><i class="fa fa-warning"></i> No result</td>
                     </tr>
                 </thead>
 
                 <tbody id="tableBody">
                     <tr class="tableRow">
-                        <td>1</td>
-                        <td>Chamonix Old Vine Steen</td>
-                        <td>alate</td>
-                        <td>lolodvd</td>
-                        <td>lololo</td>
-                        <td>lolo</td>
-                        <td>lolo</td>
-                        <td>loolo</td>
-                        <td>lolo</td>
-                        <td>ololo</td>
-                        <td>oolo</td>
-                        <td>mol</td>
+                        <td>
+                            <div class="d-flex align-items-center ps-1">
+                                <i class="fa-solid fa-circle-user fa-2xl" style="width: 40px; height: 40px"></i>
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1 userData">John Doe</p>
+                                    <p class="text-muted mb-0 userData">john.doe@gmail.com</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="userData">Production</td>
+                        <td class="userData">lolodvd</td>
+                        <td class="userData">lololo</td>
+                        <td>
+                            <span class="badge badge-primary rounded-pill d-inline userData">Customer</span>
+                        </td>
+                        <td class="userData">lolo</td>
+                        <td class="userData">loolo</td>
+                        <td class="userData">lolo</td>
+                        <td class="userData">ololo</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button disabled type="button" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Edit">
+                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
-                                <button disabled type="button" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Delete">
+                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Delete">
                                     <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
                                 </button>
                             </div>
@@ -81,24 +88,31 @@
 
 
                     <tr class="tableRow">
-                        <td>2</td>
-                        <td>Chamonix Old Vine Steen</td>
-                        <td>alate</td>
-                        <td>lolodvd</td>
-                        <td>lololo</td>
-                        <td>lolo</td>
-                        <td>lolo</td>
-                        <td>loolo</td>
-                        <td>lolo</td>
-                        <td>ololo</td>
-                        <td>oolo</td>
-                        <td>molp</td>
+                        <td>
+                            <div class="d-flex align-items-center ps-1">
+                                <i class="fa-solid fa-circle-user fa-2xl" style="width: 40px; height: 40px"></i>
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1 userData">Jack sparrow</p>
+                                    <p class="text-muted mb-0 userData">jack.sparrow@gmail.com</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="userData">Production</td>
+                        <td class="userData">lolodvd</td>
+                        <td class="userData">lololo</td>
+                        <td>
+                            <span class="badge badge-danger rounded-pill d-inline userData">Manager</span>
+                        </td>
+                        <td class="userData">lolo</td>
+                        <td class="userData">loolo</td>
+                        <td class="userData">lolo</td>
+                        <td class="userData">ololo</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button disabled type="button" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Edit">
+                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
-                                <button disabled type="button" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Delete">
+                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Delete">
                                     <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
                                 </button>
                             </div>
@@ -109,7 +123,7 @@
 
             <div class="container collapse collapsible">
                 <div class="d-flex justify-content-center">
-                    <button type="button" onclick="insertIntoTable(this)" style="width:30px;height:30px" class="btn btn-floating" data-mdb-toggle="modal" data-mdb-target="#usersModal"><i class="fa-solid fa-circle-plus fa-lg" style="color: #0cd434;width:30px;height:30px"></i></button>
+                    <button type="button" onclick="prepareForInsert()" style="width:30px;height:30px" class="btn btn-floating" data-mdb-toggle="modal" data-mdb-target="#usersModal"><i class="fa-solid fa-circle-plus fa-lg" style="color: #0cd434;width:30px;height:30px"></i></button>
                 </div>
             </div>
 
@@ -127,24 +141,17 @@
                     <div class="modal-body">
                         <form>
                             <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">First Name:</label>
+                                <label for="recipient-name" class="col-form-label">Name:</label>
                                 <input type="text" class="form-control modalInputs">
                             </div>
+
                             <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Last Name:</label>
-                                <input class="form-control modalInputs"></input>
-                            </div>
-                            <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Department:</label>
+                                <label for="message-text" class="col-form-label">Email:</label>
                                 <input class="form-control modalInputs"></input>
                             </div>
 
                             <div class="mb-3">
-                                <label for="message-text" class="col-form-label">User Type:</label>
-                                <input class="form-control modalInputs"></input>
-                            </div>
-                            <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Email:</label>
+                                <label for="message-text" class="col-form-label">Department:</label>
                                 <input class="form-control modalInputs"></input>
                             </div>
 
@@ -152,8 +159,14 @@
                                 <label for="message-text" class="col-form-label">Street Address:</label>
                                 <input class="form-control modalInputs"></input>
                             </div>
+
                             <div class="mb-3">
                                 <label for="message-text" class="col-form-label">Province:</label>
+                                <input class="form-control modalInputs"></input>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message-text" class="col-form-label">User Type:</label>
                                 <input class="form-control modalInputs"></input>
                             </div>
 
@@ -163,12 +176,12 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Password:</label>
+                                <label for="message-text" class="col-form-label">Credentials:</label>
                                 <input class="form-control modalInputs"></input>
                             </div>
 
                             <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Credentials:</label>
+                                <label for="message-text" class="col-form-label">Password:</label>
                                 <input class="form-control modalInputs"></input>
                             </div>
 

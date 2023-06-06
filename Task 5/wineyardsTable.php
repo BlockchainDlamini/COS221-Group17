@@ -49,6 +49,9 @@
                         <th class="h6">Postal Code</th>
                         <th class="h6">Actions</th>
                     </tr>
+                    <tr class="warning no-result text-center">
+                        <td colspan="9"><i class="fa fa-warning"></i> No result</td>
+                    </tr>
                 </thead>
 
                 <tbody id="tableBody">
@@ -63,10 +66,10 @@
                         <td>mol</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button disabled type="button" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineyardsModal" data-mdb-ripple-color="dark" title="Edit">
+                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineyardsModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
-                                <button disabled type="button" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineyardsModal" data-mdb-ripple-color="dark" title="Delete">
+                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineyardsModal" data-mdb-ripple-color="dark" title="Delete">
                                     <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
                                 </button>
                             </div>
@@ -85,10 +88,10 @@
                         <td>mol</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button disabled type="button" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineyardsModal" data-mdb-ripple-color="dark" title="Edit">
+                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineyardsModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
-                                <button disabled type="button" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineyardsModal" data-mdb-ripple-color="dark" title="Delete">
+                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineyardsModal" data-mdb-ripple-color="dark" title="Delete">
                                     <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
                                 </button>
                             </div>
@@ -99,7 +102,7 @@
 
             <div class="container collapse collapsible">
                 <div class="d-flex justify-content-center">
-                    <button type="button" onclick="insertIntoTable(this)" style="width:30px;height:30px" class="btn btn-floating" data-mdb-toggle="modal" data-mdb-target="#wineyardsModal"><i class="fa-solid fa-circle-plus fa-lg" style="color: #0cd434;width:30px;height:30px"></i></button>
+                    <button type="button" onclick="prepareForInsert()" style="width:30px;height:30px" class="btn btn-floating" data-mdb-toggle="modal" data-mdb-target="#wineyardsModal"><i class="fa-solid fa-circle-plus fa-lg" style="color: #0cd434;width:30px;height:30px"></i></button>
                 </div>
             </div>
 

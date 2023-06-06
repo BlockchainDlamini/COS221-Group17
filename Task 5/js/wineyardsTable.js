@@ -6,7 +6,7 @@ function generateRow(wineyardID) {
     return newRow;
 }
 
-function updateTable(updateButton) {
+function prepareForUpdate(updateButton) {
     //skip index 0 and index 12(row number and actions column)
     const selectedRow = updateButton.closest("tr");
     const cols = selectedRow.children;
@@ -21,7 +21,7 @@ function updateTable(updateButton) {
 }
 
 
-function insertIntoTable(insertButton) {
+function prepareForInsert() {
     const modal = document.getElementsByClassName("modalInputs");
     for (var i = 0; i < modal.length; i++) {
         modal[i].value = "";

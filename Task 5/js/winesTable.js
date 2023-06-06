@@ -125,9 +125,14 @@ function toggleTableEdit() {
     }
 }
 
-function generateMainRow(wineBarrelID, bottleID) {
+function generateMainRow(wineBarrelID, bottleID, awardID, varietalID) {
+    var finalAwardID = awardID;
+    if (Array.isArray(awardID)) {
+        finalAwardID = awardID.toString();
+    }
+
     var mainRow = document.createElement("tr");
-    mainRow.innerHTML = '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><div class="d-flex justify-content-around"><button disabled type="button" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-wineBarrelID=' + wineBarrelID + ' data-bottleID=' + bottleID + ' data-mdb-ripple-color="dark" title="Edit"><i class="fa-regular fa-pen-to-square fa-xl actionIcons"></i></button><button disabled type="button" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-ripple-color="dark" title="Delete"><i class="fa-solid fa-trash fa-xl actionIcons" style="color: #f83a3a;"></i></button></div></td>';
+    mainRow.innerHTML = '<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><div class="d-flex justify-content-around"><button disabled type="button" onclick="updateTable(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-wineBarrelID=' + wineBarrelID + ' data-bottleID=' + bottleID + ' data-awardID=' + finalAwardID + ' data-varietalID=' + varietalID + ' data-mdb-ripple-color="dark" title="Edit"><i class="fa-regular fa-pen-to-square fa-xl actionIcons"></i></button><button disabled type="button" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-ripple-color="dark" title="Delete"><i class="fa-solid fa-trash fa-xl actionIcons" style="color: #f83a3a;"></i></button></div></td>';
 
     const subRowDivID = bottleID;
     mainRow.setAttribute("data-mdb-toggle", "collapse");
@@ -144,13 +149,13 @@ function generateMainRow(wineBarrelID, bottleID) {
 function generateSubRow(wineBarrelID, bottleID) {
     const subRowDivID = bottleID;
     var subRow = document.createElement("tr");
-    subRow.innerHTML = '<td colspan="13" class="hiddenRow"><div class="accordian-body collapse" id=' + subRowDivID + '><table class="table table-sm ms-4"><thead><tr class="bg-light"><th>Description</th><th>Vineyard</th><th>Award</th><th>Award Year</th><th>Award Details</th><th>Residual Sugar</th><th>Cellaring Potential</th><th>Production Method</th><th>Production Date</th><th>Bottles Made</th><th>Bottles Sold</th><th>Image URL</th></tr></thead><tbody><tr data-mdb-toggle="collapse"><td class="text-truncate" style="max-width: 5px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="text-truncate" style="max-width: 5px;"></td></tr></tbody></table></div></td> ';
+    subRow.innerHTML = '<td colspan="13" class="hiddenRow"><div class="accordian-body collapse" id=' + subRowDivID + '><table class="table table-sm ms-4 table-striped mb-0"><thead class="bg-info text-dark" style="--mdb-bg-opacity:0.19;"><tr><th>Description</th><th>Wineyard</th><th>Award</th><th>Award Year</th><th>Award Details</th><th>Residual Sugar</th><th>Cellaring Potential</th><th>Production Method</th><th>Production Date</th><th>Bottles Made</th><th>Bottles Sold</th><th>Image URL</th></tr></thead><tbody><tr data-mdb-toggle="collapse"><td class="text-truncate" style="max-width: 5px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="text-truncate" style="max-width: 5px;"></td></tr></tbody></table></div></td> ';
 
     //to get the cells use->   const cols = selectedSubRow.children[0].children[0].children[0].children[1].children[0].children;
     return subRow;
 }
 
-function updateTable(updateButton) {
+function prepareForUpdate(updateButton) {
     //skip index 0 and index 12(row number and actions column)
     const selectedMainRow = updateButton.closest("tr");
     const colsOne = selectedMainRow.children;
@@ -168,6 +173,21 @@ function updateTable(updateButton) {
         modal[m++].value = colsTwo[i].innerHTML;
     }
     selectedMainRow.setAttribute("data-mdb-toggle", "collapse");
+    const wineBarrelID = selectedMainRow.getAttribute("data-wineBarrelID");
+    const bottleID = selectedMainRow.getAttribute("data-bottleID");
+    const awardID = selectedMainRow.getAttribute("data-awardID");
+
+    var finalAwardID = awardID;
+    if (awardID.indexOf(',') > -1) {
+        //split into an array
+        finalAwardID = awardID.split(',');
+    }
+    const varietalID = selectedMainRow.getAttribute("data-varietalID");
+
+    sessionStorage.setItem("wineBarrelID", wineBarrelID); //save the wineBarrelID to session storage
+    sessionStorage.setItem("bottleID", bottleID); //save the bottleID to session storage
+    sessionStorage.setItem("awardID", finalAwardID); //save the awardID to session storage
+    sessionStorage.setItem("varietalID", varietalID); //save the verietalID to session storage
 }
 
 
@@ -181,9 +201,11 @@ function getCellsOfSubRow(subRow) {
     return cols;
 }
 
-function insertIntoTable(insertButton) {
+function prepareForInsert() {
     const modal = document.getElementsByClassName("modalInputs");
     for (var i = 0; i < modal.length; i++) {
         modal[i].value = "";
     }
 }
+
+

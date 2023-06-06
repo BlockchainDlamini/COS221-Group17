@@ -28,7 +28,7 @@
                 <a class="nav-link <?= $brandsTable; ?>" href="brandsTable.php" role="tab" aria-selected="<?= $brandsTableSelected; ?>"><i class="fa-regular fa-copyright fa-lg me-2"></i>Brands</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link <?= $usersTable; ?>" href="usersTable.php" role="tab" aria-selected="<?= $usersTableSelected; ?>"><i class="fa-solid fa-users-rectangle fa-lg me-2"></i>Users</a>
+                <a class="nav-link <?= $usersTable; ?>" href="usersTable.php" role="tab" aria-selected="<?= $usersTableSelected; ?>"><i class="fa-solid fa-users fa-lg me-2"></i>Users</a>
             </li>
         </ul>
         <!-- Tabs navs -->

@@ -1,0 +1,178 @@
+/* *{
+    font-family: "Poppins", sans serif;
+    
+}
+
+
+body{
+    background-image: url("../img/background.jpg");
+    background-size: cover;   
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 90vh;
+
+}
+
+.container{
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px 0 15px;
+
+}
+
+.input{
+    height: 45px;
+    width: 65%;
+    outline: none;
+    border-radius: 30px;
+    padding: 0 0 0 45px; 
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.inputfield{
+display: flex;
+flex-direction: column;
+
+} */
+
+
+
+
+*{
+    font-family: 'poppins' ,sans-serif;
+}
+body{
+    background-image: url("../img/wallpaperflare.com_wallpaper\ \(1\).jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+.first{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+.second{
+    width: 330px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px 0 15px;
+    
+}
+span{
+    color: #fff;
+    font-size: small;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 10px 0;
+}
+header{
+    color: #310362;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 10px 0;
+}
+
+.inputfield .input{
+    height: 45px;
+    width: 85%;
+    border: none;
+    border-radius: 200px;
+    color: #310362;
+    font-size: 15px;
+    padding: 0 0 0 45px;
+    background: rgba(255,255,255,0.7);
+    outline: none;
+}
+i{
+    position: relative;
+    top: -33px;
+    left: 17px;
+    color: #310362;
+}
+::-webkit-input-placeholder{
+    color: #310362;
+}
+.submit{
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+    height: 45px;
+    outline: none;
+    width: 100%;
+    color: black;
+    background: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: .3s ;
+}
+.submit:hover{
+    box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.2);
+}
+
+
+label a{
+    text-decoration: bold;
+    color: #2e0a0a;
+}
+
+.signupbutton{
+
+
+    height: 45px;
+    width: 85%;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 15px;
+    padding: 0 0 0 45px;
+    background: rgba(255, 255, 255, 0.9);
+    outline: none;  
+}
+
+
+.selectcontainer{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    min-width: 250px;
+    height: 50px;
+
+}
+
+.selector{
+
+    border: none;
+    appearance: none;
+    padding: 0 30px 0 15px;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    background-color: rgb(27, 46, 18);
+    font-size: 15px;
+    border-radius: 30px;
+    height: 45px;
+    
+
+}
+
+
+.selectcontainer .iconcontainer{
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    color: white;
+}
+
+a{
+    color: white;
+}
