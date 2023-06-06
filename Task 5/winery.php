@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>GWS - Wines</title>
+    <title>Wineries</title>
     <link rel="stylesheet" href="css/index.css">
     <link href="css/mod/bootstrap-3.3.2/css/bootstrapDropdown.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css">
@@ -15,8 +15,8 @@
 <body>
     <?php
     include_once "navigation.php";
-    $wines = "active";
-    $winesSelected = "true";
+    $wineries = "active";
+    $wineriesSelected = "true";
     include_once "header.php";
     ?>
 
