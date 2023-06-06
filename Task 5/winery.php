@@ -15,8 +15,8 @@
 <body>
     <?php
     include_once "navigation.php";
-    $wines = "active";
-    $winesSelected = "true";
+    $wineries = "active";
+    $wineriesSelected = "true";
     include_once "header.php";
     ?>
 
