@@ -128,7 +128,7 @@ function toggleTableEdit() {
 function generateMainRow(wineBarrelID, bottleID, awardID, varietalID) {
     var finalAwardID = awardID;
     if (Array.isArray(awardID)) {
-        finalAwardID = awardID.toString();
+        finalAwardID = JSON.stringify(awardID); //convert the array of award ids to JSON string
     }
 
     var mainRow = document.createElement("tr");

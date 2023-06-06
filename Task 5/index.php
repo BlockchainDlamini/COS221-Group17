@@ -2,10 +2,12 @@
 <html lang="en">
 
 <head>
-    <title>Wines</title>
+    <title>GWS - Wines</title>
     <link rel="stylesheet" href="css/index.css">
     <link href="css/mod/bootstrap-3.3.2/css/bootstrapDropdown.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="img/favicon-dark/favicon-dark.ico">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="img/favicon-light/favicon-light.ico">
 </head>
 
 
