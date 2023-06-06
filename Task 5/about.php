@@ -4,6 +4,8 @@
 <head>
     <title>About Us</title>
     <link rel="stylesheet" href="css/about.css">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="img/favicon-dark/favicon-dark.ico">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="img/favicon-light/favicon-light.ico">
 </head>
 
 <body>
