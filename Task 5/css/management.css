@@ -1,0 +1,50 @@
+.results tr[visible='false'],
+.no-result {
+    display: none;
+}
+
+.results tr[visible='true'] {
+    display: table-row;
+}
+
+.rowCount {
+    padding: 8px;
+    color: #ccc;
+}
+
+#modifyTable {
+    margin-bottom: 7px;
+}
+
+.btn.btn-link:hover {
+    background-color: rgb(234, 234, 234) !important;
+}
+
+.hiddenRow {
+    padding: 0 !important;
+}
+
+table {
+    cursor: context-menu;
+}
+
+th,
+td,
+tr {
+    padding-left: 0 !important;
+}
+
+.tabNav.nav-pills .nav-link {
+    /* background-color: #161c44 !important; */
+    background-color: #afb4d0;
+    color: #272749;
+}
+main{
+    display: none;
+}
+
+
+.tabNav.nav-pills .nav-link.active{
+    background-color: #303556 !important;
+    color: #e7e0e0;
+}

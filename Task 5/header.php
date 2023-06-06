@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="css/header.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="css/jquery-3.7.0/jquery-3.7.0.min.js"></script>
 </head>
 
 
 <body>
-
+    <?php
+    include_once "navigation.php";
+    ?>
     <header class="sticky-top">
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
             <div class="container-fluid">
@@ -44,6 +47,17 @@
                         <li class="nav-item signupLogin" role="presentation">
                             <a class="nav-link rounded-pill" href="signup.php" type="button" role="tab" aria-selected="false">Signup</a>
                         </li>
+                        <div class="dropdown userAccountDiv hidden">
+                            <button id="userAccountButton" class="nav-link dropdown-toggle" data-mdb-toggle="dropdown" aria-expanded="false" title="Account">
+                                <i class="fa-solid fa-user-gear fa-2xl"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-sliders fa-lg me-2"></i>Preferences</a></li>
+                                <li><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-pen fa-lg me-2"></i>Admin</a></li>
+                                <li><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-right-from-bracket fa-lg me-2"></i>Logout</a></li>
+                            </ul>
+                        </div>
+
                     </ul>
                 </div>
             </div>
@@ -56,6 +70,8 @@
         </div>
 
     </header>
+
+    <script type="application/javascript" src="header.js"></script>
 
 </body>
 

@@ -3,7 +3,6 @@
 
 <head>
     <link rel="stylesheet" href="css/footer.css">
-    <!-- <link rel="stylesheet" href="mdb.min.css"> -->
 </head>
 
 <body>
@@ -178,7 +177,7 @@
 
 
     <!-- for using jquery -->
-    <script src="css/jquery-3.7.0/jquery-3.7.0.min.js"></script>
+    <!-- <script src="css/jquery-3.7.0/jquery-3.7.0.min.js"></script> -->
     <!-- for using jquery -->
 
     <script src="css/mdb5-6.3.1/js/mdb.min.js"></script>

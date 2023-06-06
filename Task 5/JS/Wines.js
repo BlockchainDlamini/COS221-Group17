@@ -255,40 +255,43 @@
   };
 }
 
+//search function
 function search() {
-  var search = document.getElementById("searchBarCollapse").value
+  var inputElement = document.querySelector('.form-control'); // Get the input element using a class selector
+  var inputValue = inputElement.value; // Get the value of the input field
+  console.log(inputValue); // Display the value in the console
   var fuzzy = true;
   const url = "https://wheatley.cs.up.ac.za/u22557858/COS221HA/GetWineBottles.php";
   const data = {
-      "Type": "GetWines",
-      "Return": ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "brandName"],
-      "Search": {
-          "name": search
-      },
-      "Fuzzy": fuzzy
+    Type: "GetWines",
+    Return: ["bottleSize", "price", "image_URL", "availability", "name", "year", "age", "brandName"],
+    Search: {
+      name: inputValue
+    },
+    Fuzzy: fuzzy
   };
   fetch(url, {
-      method: "POST",
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa('u22557858:NeimanAris123#')
-      },
-      body: JSON.stringify(data)
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Basic " + btoa("u22557858:NeimanAris123#")
+    },
+    body: JSON.stringify(data)
   })
-  .then(response => response.json())
-  .then(data => {
+    .then(response => response.json())
+    .then(data => {
       const images = document.querySelectorAll('.card-img-top');
       const wineDetails = document.querySelectorAll('.wineDetails');
 
       clearScreen();
-      if (data.data === "No mathing results found") {
+      console.log(data.data)
+      if (data.data === "No matching results found") {
         alert("No matching results found.");
         return;
-      }
-
-      const dataArray = data.data.map(({ wineBarrelID, ...wine }) => wine);
-      dataArray.forEach((wine, index) => {
-        if (index < wineDetails.length) {
+      } else if (data.data !== "No matching results found") {
+        const dataArray = Array.isArray(data.data) ? data.data : [data.data];
+        dataArray.forEach((wine, index) => {
+          if (index < wineDetails.length) {
             images[index].src = wine.image_URL;
             document.getElementById(`name${index}`).innerHTML = wine.name;
             document.getElementById(`brandName${index}`).innerHTML = wine.brandName;
@@ -297,10 +300,11 @@ function search() {
             document.getElementById(`rating${index}`).innerHTML = wine.rating;
             document.getElementById(`price${index}`).innerHTML = `R${wine.price}`;
             document.getElementById(`bottleSize${index}`).innerHTML = wine.bottleSize;
-        }
-      });
-  })
-  .catch(error => console.error('Error:', error));
+          }
+        });
+      }
+    })
+    .catch(error => console.error('Error:', error));
 }
   
   
