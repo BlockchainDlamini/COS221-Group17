@@ -57,7 +57,6 @@
                 alert("Invalid email address.");
                 return false;
             }
-            sessionStorage.setItem('auth_Token', 'lala');
             return true;
         }
     </script>

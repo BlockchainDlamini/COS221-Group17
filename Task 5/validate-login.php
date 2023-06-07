@@ -29,7 +29,7 @@ if ($result->num_rows === 1) {
     // $_SESSION['logged_in'] = true;
 
 
-
+    echo "<script>document.write(localStorage.setItem('meme', 'lala'))</script>";
 
     header("Location: index.php");
     exit();
