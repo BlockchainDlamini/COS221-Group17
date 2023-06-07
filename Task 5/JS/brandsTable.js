@@ -39,13 +39,13 @@
             if (provinceInput !== "") 
                 formData["province"] = provinceInput;
             if (phoneNumberInput !== "") 
-                formData["phone_number"] = phoneNumberInput;
+                formData["phoneNumber"] = phoneNumberInput;
             if (emailInput !== "") 
                 formData["email"] = emailInput;
             if (streetAddressInput !== "") 
-                formData["street_address"] = streetAddressInput;
+                formData["streetAddress"] = streetAddressInput;
             if (postalCodeInput !== "") 
-                formData["postal_code"] = postalCodeInput;
+                formData["postalCode"] = postalCodeInput;
 
             const data = {
                 "Type": "UpdateBrand",
