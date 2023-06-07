@@ -85,8 +85,8 @@ function prepareForUpdate(updateButton) {
     }
 
     var j = 0;
-    sessionStorage.setItem(columnNameElements[j++].innerHTML, fullName[0].innerHTML);
-    sessionStorage.setItem(columnNameElements[j++].innerHTML, fullName[1].innerHTML);
+    sessionStorage.setItem(columnNameElements[j++].innerHTML, fullName[0]);
+    sessionStorage.setItem(columnNameElements[j++].innerHTML, fullName[1]);
     for (var i = 1; i < cols.length; i++) {
         sessionStorage.setItem(columnNameElements[j++].innerHTML, cols[i].innerHTML);
     }
