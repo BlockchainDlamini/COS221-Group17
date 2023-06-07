@@ -35,8 +35,6 @@ if (!isset($decode))
 //Checking the type of request the user made
 if ($decode->Type == "GetWines") 
   echo getWines($decode);
-else if ($decode->Type == "GetVarietals") 
-  echo GetVarietals();
 else if ($decode->Type == "GetWinery") 
   echo getWinery($decode);
 else if ($decode->Type == "GetWineyard") 
@@ -113,7 +111,7 @@ function getWines($decode)
     //Seperate call "awardName", "awardYear", "awardDetails". Setting flag for call later on
     $awardFlag = true;
 
-    $sql .= "SELECT bot.Wine_Barrel_ID AS wineBarrelID, bot.Bottle_Size AS bottleSize, bot.Price AS price, bot.Image_URL AS image_URL, bot.Num_Bottles_Made - bot.Num_Bottles_Sold AS availability, 
+    $sql .= "SELECT bot.Wine_Barrel_ID AS wineBarrelID, bot.Bottle_ID AS bottleID, bot.Bottle_Size AS bottleSize, bot.Price AS price, bot.Image_URL AS image_URL, bot.Num_Bottles_Made - bot.Num_Bottles_Sold AS availability, 
     bar.Name AS name, bar.Year AS year, YEAR(CURDATE()) - bar.Year AS age, bar.Description AS description, bar.Cellaring_Potential AS cellaringPotential, var.ID AS varietalID,
     var.Category_Name AS categoryName, var.Varietal_Name AS varietalName, var.Residual_Sugar AS residualSugar, var.pH AS ph, 
     var.Alcohol_Percentage AS alcoholPercent, var.Quality AS quality, var.Brand_Name AS brandName, bar.Winery_Name AS wineryName, bar.Wineyard_Name AS wineyardName, 
@@ -128,7 +126,7 @@ function getWines($decode)
   }
   else //Returing selected stuff
   {
-    $sql .= "SELECT bot.Wine_Barrel_ID AS wineBarrelID, var.ID AS varietalID, ";
+    $sql .= "SELECT bot.Wine_Barrel_ID AS wineBarrelID, var.ID AS varietalID, bot.Bottle_ID AS bottleID";
     $temp =[];
     
     foreach($decode->Return as $item)
@@ -273,25 +271,6 @@ function getWines($decode)
   else if ($queryResults==null)
     errorHandling('Error executing the database query.', 500);
 
-}
-
-function GetVarietals()
-{
-  $sql = "SELECT * FROM Varietal";
-  $result = Connect::instance()->runSelectQuery($sql);
-  if(!$result)
-  {
-    return json_encode([
-      'status' => 'fail',
-      'timestamp' => time(),
-      'data' => "No records returned"
-    ]);
-  }
-  return json_encode([
-    'status' => 'sucess',
-    'timestamp' => time(),
-    'data' => $result
-  ]);
 }
 
 function getWinery($decode)
@@ -476,79 +455,62 @@ function getWineyard($decode)
 
 function getBrands($decode)
 {
-  $fuzzy = isset($decode->fuzzy) ? $decode->fuzzy : true;
-  $search = isset($decode->search) ? $decode->search : [
-    'name' => null,
-    'rating' => null,
-    'wineryName' => null
-  ];
-  $returnFields = isset($decode->return) ? (is_array($decode->return) ? $decode->return : explode(',', $decode->return)) : [];
-  $sortField = isset($decode->sort) ? $decode->sort : 'name';
-  $sortOrder = isset($decode->order) ? strtoupper($decode->order) : 'ASC';
-  $limit = isset($decode->limit) ? intval($decode->limit) : null;
-
-  // Mapping of return fields to database column names
-  $fieldMappings = [
-    'name' => 'Name',
-    'phoneNumber' => 'Phone_Number',
-    'email' => 'Email',
-    'streetAddress' => 'Street_Address',
-    'province' => 'Province',
-    'postalCode' => 'Postal_Code',
-    'rating' => 'brandRating.Rating',
-    'wineryName' => 'winery.Name'
+  $validReturn = [
+    "name" => "Brand.Name",
+    "phoneNumber" => "Brand.Phone_Number",
+    "email" => "Brand.Email",
+    "streetAddress" => "Brand.Street_Address",
+    "province" => "Brand.Province",
+    "postalCode" => "Brand.Postal_Code",
+    "rating" => "Brand_Rating.Rating",
+    "wineryName" => "Winery.Name"
   ];
 
-  // Prepare the SQL query
-  $sql = "SELECT ";
+  $sql = "";
 
-  if (empty($returnFields) || $returnFields === '*') {
-    $sql .= "Brand.*, Brand_Rating.Rating, Winery.Name AS WineryName";
+  if (!isset($decode->Return)) {
+    return json_encode([
+      'status' => 'error',
+      'timestamp' => time(),
+      'data' => 'The parameters are incorrect'
+    ]);
+  }
+
+  $sql .= "SELECT ";
+  $temp = [];
+
+  if ($decode->Return == "*") {
+    $sql .= "Brand.*, SUM(Brand_Rating.Rating) AS rating, Winery.Name AS wineryName";
   } else {
-    $mappedFields = [];
-    foreach ($returnFields as $field) {
-      if (isset($fieldMappings[$field])) {
-        $mappedFields[] = $fieldMappings[$field];
+    foreach ($decode->Return as $item) {
+      if (!array_key_exists($item, $validReturn)) {
+        return json_encode([
+          'status' => 'error',
+          'timestamp' => time(),
+          'data' => 'Incorrect parameters'
+        ]);
       }
+
+      array_push($temp, $validReturn[$item]);
     }
-    if (empty($mappedFields)) {
-      $mappedFields[] = "Brand.*"; // Add default fields if $returnFields is empty or no valid fields are found
-    }
-    $sql .= implode(", ", $mappedFields);
-    if (in_array('rating', $returnFields)) {
-      $sql .= ", Brand_Rating.Rating";
-    }
-    if (in_array('wineryName', $returnFields)) {
-      $sql .= ", Winery.Name AS WineryName";
-    }
+
+    $sql .= implode(", ", $temp);
   }
 
-  $sql .= " FROM Brand";
-
-  // Add the join with the brandRating table if searching for rating
-  if (in_array('rating', $returnFields)) {
-    $sql .= " LEFT JOIN Brand_Rating ON Brand.Name = Brand_Rating.Brand_Name";
-  }
-
-  // Add the join with the Winery table if searching for wineryName
-  if (in_array('wineryName', $returnFields)) {
-    $sql .= " LEFT JOIN Winery ON Brand.Brand_Name = Winery.Brand_Name";
-  }
+  $sql .= " FROM Brand
+    LEFT JOIN Brand_Rating ON Brand.Name = Brand_Rating.Brand_Name
+    LEFT JOIN Winery ON Brand.Name = Winery.Brand_Name";
 
   // Add search conditions to the SQL query if search fields are provided
-  if (!empty($search)) {
+  if (isset($decode->Search)) {
     $conditions = [];
-    foreach ($search as $field => $value) {
-      if (isset($fieldMappings[$field]) && $value !== null) {
-        $column = $fieldMappings[$field];
+    foreach ($decode->Search as $field => $value) {
+      if (isset($validReturn[$field]) && $value !== null) {
+        $column = $validReturn[$field];
         if ($field === 'rating' || $field === 'wineryName') {
-          $conditions[] = "$column LIKE :$field";
+          $conditions[] = "$column LIKE '%$value%'";
         } else {
-          if ($fuzzy) {
-            $conditions[] = "Brand.$column LIKE '%$value%'";
-          } else {
-            $conditions[] = "Brand.$column = '$value'";
-          }
+          $conditions[] = "$column = '$value'";
         }
       }
     }
@@ -557,23 +519,37 @@ function getBrands($decode)
     }
   }
 
+  // Group by Brand_Name to combine ratings with the same Brand_Name
+  $sql .= " GROUP BY Brand.Name";
+
   // Add sorting to the SQL query
-  $sql .= " ORDER BY $sortField $sortOrder";
+  if (isset($decode->Sort)) {
+    $sortField = $validReturn[$decode->Sort];
+    $sortOrder = isset($decode->Order) ? strtoupper($decode->Order) : 'ASC';
+    $sql .= " ORDER BY $sortField $sortOrder";
+  }
 
   // Add limit to the SQL query if specified
-  if ($limit !== null) {
+  if (isset($decode->Limit)) {
+    $limit = intval($decode->Limit);
     $sql .= " LIMIT $limit";
   }
 
   // Execute the query using the runSelectQuery() function
-  $result = Connect::instance()->runSelectQuery($sql, $search);
+  $result = Connect::instance()->runSelectQuery($sql);
 
   if ($result === false) {
-    errorHandling('No matching records found.', 500);
-
+    return json_encode([
+      'status' => 'failed',
+      'timestamp' => time(),
+      'data' => 'No matching records found.'
+    ]);
   } elseif ($result === null) {
-    errorHandling('Error executing the database query.', 500);
-
+    return json_encode([
+      'status' => 'error',
+      'timestamp' => time(),
+      'data' => 'Error executing the database query.'
+    ]);
   } else {
     $response = [
       'status' => 'success',
@@ -582,7 +558,6 @@ function getBrands($decode)
     ];
     return json_encode($response);
   }
-
 }
 
 function getUser($decode)
@@ -1250,6 +1225,7 @@ function DeleteBrand($decode)
   }
 }
 
+
 function AppendUser($decode)
 {
   // Get the values from the JSON object
@@ -1267,27 +1243,29 @@ function AppendUser($decode)
   $password = $decode->AppendInfo->password;
 
   // Generate the SQL query to append the user data
-  $sql = "APPEND User AS u SET ";
-  $values = [];
-
-  // Append the values to the query
-  array_push($values, "u.First_Name = '" . $firstName . "'");
-  array_push($values, "u.Last_Name = '" . $lastName . "'");
-  array_push($values, "u.Phone_Number = '" . $phoneNumber . "'");
-  array_push($values, "u.Email = '" . $email . "'");
-  array_push($values, "u.Street_Address = '" . $streetAddress . "'");
-  array_push($values, "u.Province = '" . $province . "'");
-  array_push($values, "u.Postal_Code = '" . $postalCode . "'");
-  array_push($values, "u.User_Type = '" . $userType . "'");
-  array_push($values, "u.Department = '" . $department . "'");
-  array_push($values, "u.Credentials = '" . $credentials . "'");
-  array_push($values, "u.Preferences = '" . $preferences . "'");
-  array_push($values, "u.Password = '" . $password . "'");
-
-  $sql .= implode(", ", $values);
+  $sql = "INSERT INTO User (First_Name, Last_Name, Phone_Number, Email, Street_Address, Province, Postal_Code, User_Type, Department, Credentials, Preferences, Password)
+          VALUES ('$firstName', '$lastName', '$phoneNumber', '$email', '$streetAddress', '$province', '$postalCode', '$userType', '$department', '$credentials', '$preferences', '$password')";
+          
+          //echo $sql;
 
   // Execute the SQL query to append the user data
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  // Connect::instance()->runInsertOrDelteQuery($sql);
+  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
 }
 
 
@@ -1320,65 +1298,40 @@ function AppendWine($decode)
 
   // Generate the SQL queries to append the wine data
 
+   // Varietal table
+   $sqlVarietal = "INSERT INTO Varietal (Varietal_Name, Brand_Name, Residual_Sugar, pH, Alcohol_Percentage, Quality, Category_Name)
+   VALUES ('$varietalName', '$brandName', '$residualSugar', '$pH', '$alcoholPercent', '$quality', '$categoryName')";
+
+
   // WineBarrels table
-  $sqlWineBarrels = "APPEND WineBarrels AS wb SET ";
-  $valuesWineBarrels = [];
-  array_push($valuesWineBarrels, "wb.Name = '" . $name . "'");
-  array_push($valuesWineBarrels, "wb.Year = '" . $year . "'");
-  array_push($valuesWineBarrels, "wb.Description = '" . $description . "'");
-  array_push($valuesWineBarrels, "wb.Cellaring_Potential = '" . $cellaringPotential . "'");
-  array_push($valuesWineBarrels, "wb.Varietal_ID = '" . $varietalName . "'");
-  array_push($valuesWineBarrels, "wb.Winery_Name = '" . $wineryName . "'");
-  array_push($valuesWineBarrels, "wb.Production_Date = '" . $productionDate . "'");
-  array_push($valuesWineBarrels, "wb.Production_Method = '" . $productionMethod . "'");
-  array_push($valuesWineBarrels, "wb.Wineyard_Name = '" . $wineyardName . "'");
-  $sqlWineBarrels .= implode(", ", $valuesWineBarrels);
+  $sqlWineBarrels = "INSERT INTO WineBarrels (Name, Year, Description, Cellaring_Potential, Varietal_ID, Winery_Name, Production_Date, Production_Method, Wineyard_Name)
+                     VALUES ('$name', '$year', '$description', '$cellaringPotential', (SELECT MAX(ID) FROM Varietal), '$wineryName', '$productionDate', '$productionMethod', '$wineyardName')";
 
   // Production table
-  $sqlProduction = "APPEND Production AS p SET ";
-  $valuesProduction = [];
-  array_push($valuesProduction, "p.Winery_Name = '" . $wineryName . "'");
-  array_push($valuesProduction, "p.Brand_Name = '" . $brandName . "'");
-  $sqlProduction .= implode(", ", $valuesProduction);
+  $sqlProduction = "INSERT INTO Production (Winery_Name, Brand_Name)
+                    VALUES ('$wineryName', '$brandName')";
 
   // Bottle table
-  $sqlBottle = "APPEND Bottle AS b SET ";
-  $valuesBottle = [];
-  array_push($valuesBottle, "b.Bottle_ID = (SELECT MAX(Bottle_ID) FROM Bottle) + 1");
-  array_push($valuesBottle, "b.Wine_Barrel_ID = (SELECT MAX(ID) FROM WineBarrels)");
-  array_push($valuesBottle, "b.Bottle_Size = '" . $bottleSize . "'");
-  array_push($valuesBottle, "b.Price = '" . $price . "'");
-  array_push($valuesBottle, "b.Num_Bottles_Made = '" . $numBottlesMade . "'");
-  array_push($valuesBottle, "b.Num_Bottles_Sold = '" . $numBottlesSold . "'");
-  array_push($valuesBottle, "b.Image_URL = '" . $imageURL . "'");
-  $sqlBottle .= implode(", ", $valuesBottle);
+  $sqlBottle = "INSERT INTO Bottle (Bottle_ID, Wine_Barrel_ID, Bottle_Size, Price, Num_Bottles_Made, Num_Bottles_Sold, Image_URL)
+                VALUES ((SELECT MAX(Bottle_ID) FROM Bottle) + 1, (SELECT MAX(ID) FROM WineBarrels), '$bottleSize', '$price', '$numBottlesMade', '$numBottlesSold', '$imageURL')";
 
-  // Varietal table
-  $sqlVarietal = "APPEND Varietal AS v SET ";
-  $valuesVarietal = [];
-  array_push($valuesVarietal, "v.Varietal_Name = '" . $varietalName . "'");
-  array_push($valuesVarietal, "v.Brand_Name = '" . $brandName . "'");
-  array_push($valuesVarietal, "v.Residual_Sugar = '" . $residualSugar . "'");
-  array_push($valuesVarietal, "v.pH = '" . $pH . "'");
-  array_push($valuesVarietal, "v.Alcohol_Percentage = '" . $alcoholPercent . "'");
-  array_push($valuesVarietal, "v.Quality = '" . $quality . "'");
-  array_push($valuesVarietal, "v.Category_Name = '" . $categoryName . "'");
-  $sqlVarietal .= implode(", ", $valuesVarietal);
 
   // Award table
-  $sqlAward = "APPEND Award AS a SET ";
-  $valuesAward = [];
-  array_push($valuesAward, "a.Wine_Barrel_ID = (SELECT MAX(ID) FROM WineBarrels)");
-  array_push($valuesAward, "a.Award = '" . $awardName . "'");
-  array_push($valuesAward, "a.Year = '" . $awardYear . "'");
-  array_push($valuesAward, "a.Details = '" . $awardDetails . "'");
-  $sqlAward .= implode(", ", $valuesAward);
+  $sqlAward = "INSERT INTO Award (Wine_Barrel_ID, Award, Year, Details)
+               VALUES ((SELECT MAX(ID) FROM WineBarrels), '$awardName', '$awardYear', '$awardDetails')";
+
+ // echo $sqlVarietal;
+  //echo $sqlWineBarrels;
+ // echo $sqlProduction;
+  //echo $sqlBottle;
+ // echo $sqlAward;
 
   // Execute the SQL queries to append the wine data
+  
   Connect::instance()->runInsertOrDelteQuery($sqlWineBarrels);
   Connect::instance()->runInsertOrDelteQuery($sqlProduction);
-  Connect::instance()->runInsertOrDelteQuery($sqlBottle);
   Connect::instance()->runInsertOrDelteQuery($sqlVarietal);
+  Connect::instance()->runInsertOrDelteQuery($sqlBottle);
   Connect::instance()->runInsertOrDelteQuery($sqlAward);
 }
 
@@ -1395,19 +1348,29 @@ function AppendWinery($decode)
   $brandName = $decode->AppendInfo->brandName;
 
   // Generate the SQL query to append the winery data
-  $sql = "APPEND Winery AS w SET ";
-  $values = [];
-  array_push($values, "w.Name = '" . $name . "'");
-  array_push($values, "w.Province = '" . $province . "'");
-  array_push($values, "w.Postal_Code = '" . $postalCode . "'");
-  array_push($values, "w.Street_Address = '" . $streetAddress . "'");
-  array_push($values, "w.Phone_Number = '" . $phoneNumber . "'");
-  array_push($values, "w.Email = '" . $email . "'");
-  array_push($values, "w.Brand_Name = '" . $brandName . "'");
-  $sql .= implode(", ", $values);
+  $sql = "INSERT INTO Winery (Name, Province, Postal_Code, Street_Address, Phone_Number, Email, Brand_Name)
+          VALUES ('$name', '$province', '$postalCode', '$streetAddress', '$phoneNumber', '$email', '$brandName')";
 
-  // Execute the SQL query to append the winery data
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  //echo $sql;
+
+  // Execute the SQL query to append the user data
+  // Connect::instance()->runInsertOrDelteQuery($sql);
+  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
 }
 
 
@@ -1423,21 +1386,29 @@ function AppendWineyard($decode)
   $grapeVariety = $decode->AppendInfo->grapeVariety;
 
   // Generate the SQL query to append the wineyard data
-  $sql = "APPEND Wineyards AS w SET ";
-  $values = [];
-  array_push($values, "w.Wineyard_ID = (SELECT MAX(Wineyard_ID) FROM Wineyards) + 1");
-  array_push($values, "w.Winery_ID = (SELECT Winery_ID FROM Wineries WHERE Winery_Name = '" . $wineryName . "')");
-  array_push($values, "w.Wineyard_Name = '" . $wineyardName . "'");
-  array_push($values, "w.Winery_Name = '" . $wineryName . "'");
-  array_push($values, "w.Street_Address = '" . $streetAddress . "'");
-  array_push($values, "w.Province = '" . $province . "'");
-  array_push($values, "w.Postal_Code = '" . $postalCode . "'");
-  array_push($values, "w.Area = '" . $area . "'");
-  array_push($values, "w.Grape_Variety = '" . $grapeVariety . "'");
-  $sql .= implode(", ", $values);
+  $sql = "INSERT INTO Wineyards ( Winery_ID, Wineyard_Name, Winery_Name, Street_Address, Province, Postal_Code, Area, Grape_Variety)
+          VALUES ((SELECT Winery_ID FROM Winery WHERE Name = '$wineryName'), '$wineyardName', '$wineryName', '$streetAddress', '$province', '$postalCode', '$area', '$grapeVariety')";
 
-  // Execute the SQL query to append the wineyard data
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  //echo $sql;
+
+  // Execute the SQL query to append the user data
+  // Connect::instance()->runInsertOrDelteQuery($sql);
+  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
 }
 
 
@@ -1452,19 +1423,26 @@ function AppendBrand($decode)
   $streetAddress = $decode->AppendInfo->streetAddress;
 
   // Generate the SQL query to append the brand data
-  $sql = "APPEND Brand AS b SET ";
-  $values = [];
-  array_push($values, "b.Brand_ID = (SELECT MAX(Brand_ID) FROM Brand) + 1");
-  array_push($values, "b.Name = '" . $name . "'");
-  array_push($values, "b.Phone_Number = '" . $phoneNumber . "'");
-  array_push($values, "b.Email = '" . $email . "'");
-  array_push($values, "b.Street_Address = '" . $streetAddress . "'");
-  array_push($values, "b.Province = '" . $province . "'");
-  array_push($values, "b.Postal_Code = '" . $postalCode . "'");
-  $sql .= implode(", ", $values);
+  $sql = "INSERT INTO Brand (Brand_ID, Name, Phone_Number, Email, Street_Address, Province, Postal_Code)
+          VALUES ((SELECT MAX(Brand_ID) FROM Brand) + 1, '$name', '$phoneNumber', '$email', '$streetAddress', '$province', '$postalCode')";
 
   // Execute the SQL query to append the brand data
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
 }
 
 
@@ -1476,15 +1454,26 @@ function AppendBrandRating($decode)
   $rating = $decode->AppendInfo->rating;
 
   // Generate the SQL query to append the brand rating data
-  $sql = "APPEND Brand_Rating AS br SET ";
-  $values = [];
-  array_push($values, "br.Brand_Name = (SELECT Name FROM Brand WHERE Brand_ID = " . $brandID . ")");
-  array_push($values, "br.User_ID = " . $userID);
-  array_push($values, "br.Rating = " . $rating);
-  $sql .= implode(", ", $values);
+  $sql = "INSERT INTO Brand_Rating (Brand_Name, User_ID, Rating)
+          VALUES ((SELECT Name FROM Brand WHERE Brand_ID = $brandID), $userID, $rating)";
 
   // Execute the SQL query to append the brand rating data
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
 }
 
 
@@ -1496,15 +1485,26 @@ function AppendWineRating($decode)
   $rating = $decode->AppendInfo->rating;
 
   // Generate the SQL query to append the wine rating data
-  $sql = "APPEND WineRating AS wr SET ";
-  $values = [];
-  array_push($values, "wr.User_ID = " . $userID);
-  array_push($values, "wr.Bottle_ID = (SELECT Bottle_ID FROM Bottle WHERE Wine_Barrel_ID = " . $wineBarrelID . ")");
-  array_push($values, "wr.Rating = " . $rating);
-  $sql .= implode(", ", $values);
+  $sql = "INSERT INTO WineRating (User_ID, Bottle_ID, Rating)
+          VALUES ($userID, (SELECT Bottle_ID FROM Bottle WHERE Wine_Barrel_ID = $wineBarrelID), $rating)";
 
   // Execute the SQL query to append the wine rating data
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
 }
 
 
@@ -1516,15 +1516,26 @@ function AppendWineryRating($decode)
   $rating = $decode->AppendInfo->rating;
 
   // Generate the SQL query to append the winery rating data
-  $sql = "APPEND WineryRating AS wr SET ";
-  $values = [];
-  array_push($values, "wr.User_ID = " . $userID);
-  array_push($values, "wr.Winery_ID = " . $wineryID);
-  array_push($values, "wr.Rating = " . $rating);
-  $sql .= implode(", ", $values);
+  $sql = "INSERT INTO WineryRating (User_ID, Winery_ID, Rating)
+          VALUES ($userID, $wineryID, $rating)";
 
   // Execute the SQL query to append the winery rating data
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
 }
 
 
@@ -1537,15 +1548,25 @@ function AppendWineyardRating($decode)
   $rating = $decode->AppendInfo->rating;
 
   // Generate the SQL query to append the wineyard rating data
-  $sql = "APPEND WineyardRating AS wyr SET ";
-  $values = [];
-  array_push($values, "wyr.User_ID = " . $userID);
-  array_push($values, "wyr.Wineyard_ID = " . $wineyardID);
-  array_push($values, "wyr.Rating = " . $rating);
-  $sql .= implode(", ", $values);
+  $sql = "INSERT INTO WineyardRating (User_ID, Wineyard_ID, Rating)
+          VALUES ($userID, $wineyardID, $rating)";
 
   // Execute the SQL query to append the wineyard rating data
-  Connect::instance()->runInsertOrDelteQuery($sql);
+  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
+    {
+      $response = [
+        'status' => 'success',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
+    else
+    {
+      $response = [
+        'status' => 'fail',
+        'timestamp' => time()
+      ];
+      return json_encode($response);
+    }
 }
-
 ?>
