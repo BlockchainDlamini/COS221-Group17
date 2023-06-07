@@ -46,7 +46,6 @@
                         <th class="h6">Province</th>
                         <th class="h6">Phone Number</th>
                         <th class="h6">Email</th>
-                        <th class="h6">Street Address</th>
                         <th class="h6">Postal Code</th>
                         <th class="h6">Actions</th>
                     </tr>
@@ -69,7 +68,7 @@
                                 <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#brandsModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
-                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#brandsModal" data-mdb-ripple-color="dark" title="Delete">
+                                <button disabled type="button" onclick="" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#deleteModal" data-mdb-ripple-color="dark" title="Delete">
                                     <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
                                 </button>
                             </div>
@@ -90,7 +89,7 @@
                                 <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#brandsModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
-                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#brandsModal" data-mdb-ripple-color="dark" title="Delete">
+                                <button disabled type="button" onclick="" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#deleteModal" data-mdb-ripple-color="dark" title="Delete">
                                     <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
                                 </button>
                             </div>
@@ -147,8 +146,27 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button id= "btnCancel" type="button" class="btn btn-secondary" data-mdb-dismiss="modal">CLOSE</button>
-                        <button id= "btnDone" type="button" class="btn btn-primary" >DONE</button>
+                        <button id="btnCancel" type="button" class="btn btn-secondary" data-mdb-dismiss="modal">CLOSE</button>
+                        <button id="btnDone" type="button" class="btn btn-primary" data-mdb-dismiss="modal">DONE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <i class="fa-solid fa-triangle-exclamation fa-xl me-3" style="color: #f2c72c;"></i>
+                        <h5 class="modal-title" id="deleteModalLabel">Warning</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-dark">Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-mdb-dismiss="modal">NO</button>
+                        <button id="btnConfirm" type="button" class="btn btn-secondary" data-mdb-dismiss="modal">YES</button>
                     </div>
                 </div>
             </div>
@@ -161,8 +179,8 @@
     include_once "footer.php";
     ?>
 
-    <script src="js/management.js"></script>
-    <script src="js/brandsTable.js"></script>
+    <script src="JS/management.js"></script>
+    <script src="JS/brandsTable.js"></script>
 </body>
 
 </html>
