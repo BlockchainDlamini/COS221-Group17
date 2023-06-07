@@ -1,8 +1,7 @@
 initialise();
 
 function initialise() {
-    var rowCount = $('.results .tableRow').length;
-    $('.rowCount').text(rowCount + ' items');
+   
 
     //initialise contextmenu and search
     showContextMenu();

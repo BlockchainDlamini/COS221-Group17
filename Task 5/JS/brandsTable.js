@@ -5,6 +5,7 @@ function generateRow(brandID, rowIndex) {
     newRow.innerHTML = '<td></td><td></td><td></td><td></td><td></td><td></td><td><div class="d-flex justify-content-around"><button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#brandsModal" data-mdb-ripple-color="dark" data-brandID="' + brandID + '" data-rowIndex="' + rowIndex + '" title="Edit"><i class="fa-regular fa-pen-to-square fa-xl"></i></button><button disabled type="button" onclick="" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#deleteModal" data-mdb-ripple-color="dark" data-brandID="' + brandID + '" data-rowIndex="' + rowIndex + '" title="Delete"><i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i></button></div></td>';
 
     newRow.classList.add("tableRow");
+    
     return newRow;
 }
 
@@ -190,6 +191,8 @@ fetch(url, {
                     tds[i].textContent = brand.Postal_Code;
             }
         });
+        var rowCount = $('.results .tableRow').length;
+        $('.rowCount').text(rowCount + ' items');
     })
     .catch(error => {
         console.error(error);
