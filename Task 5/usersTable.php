@@ -19,7 +19,7 @@
     <main>
         <div>
             <div>
-                <div class="text-center">
+              <div class="text-center">
                     <button id="modifyTable" class="btn btn-success btn-rounded" onclick="toggleTableEdit()" data-mdb-toggle="collapse" data-mdb-target=".collapsible" aria-expanded="false" aria-controls="collapsible">Modify Table</button>
                     <div id="modifyTableContent" class="collapse collapsible">
                         <label for="">status:</label>
@@ -228,8 +228,8 @@
     include_once "footer.php";
     ?>
 
-    <script src="js/management.js"></script>
-    <script src="js/usersTable.js"></script>
+    <script src="JS/management.js"></script>
+    <script src="JS/usersTable.js"></script>
 </body>
 
 </html>
