@@ -64,6 +64,7 @@
             .then(response => response.json())
             .then(result => {
                 if (result.status === "success") {
+                    console.log(result);
                     alert("Update successful!");
                     var table = document.getElementById("tableBody");
                     var row = table.getElementsByTagName("tr")[rowIndex];
@@ -169,10 +170,10 @@
         tableBody.innerHTML = "";
 
         dataArray.forEach((brand, index) => {
-            var row = generateRow(brand.brandID, index);
+            var row = generateRow(brand.Brand_ID, index);
             tableBody.appendChild(row);
             console.log(row);
-            console.log(brand.brandID);
+            console.log(brand.Brand_ID);
             var tds = row.querySelectorAll("td");
             for (var i = 0; i < tds.length; i++) {
                 if (i === 0)
