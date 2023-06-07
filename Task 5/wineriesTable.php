@@ -50,6 +50,7 @@
                         <th class="h6">Postal Code</th>
                         <th class="h6">Email</th>
                         <th class="h6">Phone Number</th>
+                        <th class="h6">Actions</th>
                     </tr>
                     <tr class="warning no-result text-center">
                         <td colspan="8"><i class="fa fa-warning"></i> No result</td>
@@ -65,6 +66,7 @@
                         <td>lololo</td>
                         <td>lolo</td>
                         <td>rrlolo</td>
+                        <td>rr</td>
                         <td>
                             <div class="d-flex justify-content-around">
                                 <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineriesModal" data-mdb-ripple-color="dark" title="Edit">
@@ -86,6 +88,7 @@
                         <td>lololo</td>
                         <td>lolo</td>
                         <td>lolo</td>
+                        <td>lolrt</td>
                         <td>
                             <div class="d-flex justify-content-around">
                                 <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineriesModal" data-mdb-ripple-color="dark" title="Edit">
@@ -186,8 +189,8 @@
     include_once "footer.php";
     ?>
 
-    <script src="js/management.js"></script>
-    <script src="js/wineriesTable.js"></script>
+    <script src="JS/management.js"></script>
+    <script src="JS/wineriesTables.js"></script>
 </body>
 
 </html>

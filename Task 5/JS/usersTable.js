@@ -20,8 +20,8 @@ fetch(url, {
             var newRow = generateRow(user.User_ID, user.User_Type, index);
             const cells = newRow.getElementsByClassName("userData");
             console.log(cells.length);
-            for(var i=0;i<cells.length;i++){
-                cells[0].innerHTML = user.First_Name + " "+user.Last_Name; 
+            for (var i = 0; i < cells.length; i++) {
+                cells[0].innerHTML = user.First_Name + " " + user.Last_Name;
                 cells[1].innerHTML = user.Email;
                 cells[2].innerHTML = user.Department;
                 cells[3].innerHTML = user.Street_Address;
@@ -32,7 +32,7 @@ fetch(url, {
                 // cells[7].innerHTML = preferences;
             }
 
-           
+
             var theTable = document.getElementById("tableBody");
             theTable.appendChild(newRow);
         })
@@ -60,13 +60,13 @@ function generateRow(userID, userType, rowIndex) {
     }
 
     var newRow = document.createElement("tr");
-    newRow.innerHTML = '<td><div class="d-flex align-items-center ps-1"><i class="fa-solid fa-circle-user fa-2xl" style="width: 40px; height: 40px"></i><div class="ms-3"><p class="fw-bold mb-1 userData"></p><p class="text-muted mb-0 userData"></p></div></div></td><td class="userData"></td><td class="userData"></td><td class="userData"></td><td><span class="badge ' + badgeColour + ' rounded-pill d-inline userData"></span></td><td class="userData"></td><td class="userData"></td><td class="userData"></td><td><div class="d-flex justify-content-around"><button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold ' + editableStatus + '" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" data-userID="' + userID + '" data-rowIndex="'+rowIndex+'" title="Edit"><i class="fa-regular fa-pen-to-square fa-xl"></i></button><button disabled type="button" onclick="" class="btn btn-link btn-floating btn-sm fw-bold ' + editableStatus + '" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" data-userID="' + userID + '" data-rowIndex="'+rowIndex+'" title="Delete"><i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i></button></div></td>';
+    newRow.innerHTML = '<td><div class="d-flex align-items-center ps-1"><i class="fa-solid fa-circle-user fa-2xl" style="width: 40px; height: 40px"></i><div class="ms-3"><p class="fw-bold mb-1 userData"></p><p class="text-muted mb-0 userData"></p></div></div></td><td class="userData"></td><td class="userData"></td><td class="userData"></td><td><span class="badge ' + badgeColour + ' rounded-pill d-inline userData"></span></td><td class="userData"></td><td class="userData"></td><td class="userData"></td><td><div class="d-flex justify-content-around"><button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold ' + editableStatus + '" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" data-userID="' + userID + '" data-rowIndex="' + rowIndex + '" title="Edit"><i class="fa-regular fa-pen-to-square fa-xl"></i></button><button disabled type="button" onclick="" class="btn btn-link btn-floating btn-sm fw-bold ' + editableStatus + '" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" data-userID="' + userID + '" data-rowIndex="' + rowIndex + '" title="Delete"><i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i></button></div></td>';
 
     newRow.classList.add("tableRow");
     return newRow;
 }
 
-function updateTable(updateButton) {
+function prepareForUpdate(updateButton) {
     //skip index 0 and index 12(row number and actions column)
     const selectedRow = updateButton.closest("tr");
     const columnNameElements = document.getElementsByClassName("col-form-label");
@@ -74,16 +74,21 @@ function updateTable(updateButton) {
     //     const columnName = columnNameElements[i].textContent;
     //     console.log(columnName);
     // }
-    const cols = selectedRow.children;
+    const cols = document.getElementsByClassName("userData");
     const modal = document.getElementsByClassName("modalInputs");
     var m = 0;
-    for (var i = 1; i < cols.length - 1; i++) {
+    var fullName = cols[0].innerHTML.split(" ");
+    modal[m++].value = fullName[0];
+    modal[m++].value = fullName[1];
+    for (var i = 1; i < cols.length; i++) {
         modal[m++].value = cols[i].innerHTML;
     }
-    for (var i = 0; i < cols.length; i++) {
-        if (columnNameElements[i] && cols[i + 1]) {
-            sessionStorage.setItem(columnNameElements[i].textContent, cols[i + 1].innerHTML);
-        }
+
+    var j = 0;
+    sessionStorage.setItem(columnNameElements[j++].innerHTML, fullName[0].innerHTML);
+    sessionStorage.setItem(columnNameElements[j++].innerHTML, fullName[1].innerHTML);
+    for (var i = 1; i < cols.length; i++) {
+        sessionStorage.setItem(columnNameElements[j++].innerHTML, cols[i].innerHTML);
     }
     const userID = updateButton.getAttribute("data-userID");
     sessionStorage.setItem("userID", userID); //save the userID to session storage

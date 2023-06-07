@@ -19,7 +19,7 @@
     <main>
         <div>
             <div>
-              <div class="text-center">
+                <div class="text-center">
                     <button id="modifyTable" class="btn btn-success btn-rounded" onclick="toggleTableEdit()" data-mdb-toggle="collapse" data-mdb-target=".collapsible" aria-expanded="false" aria-controls="collapsible">Modify Table</button>
                     <div id="modifyTableContent" class="collapse collapsible">
                         <label for="">status:</label>
@@ -46,7 +46,6 @@
                         <th class="h6">Type</th>
                         <th class="h6">Postal Code</th>
                         <th class="h6">Credentials</th>
-                        <th class="h6">Password</th>
                         <th class="h6">Preferences</th>
                         <th class="h6">Actions</th>
                     </tr>
@@ -74,11 +73,10 @@
                         </td>
                         <td class="userData">lolo</td>
                         <td class="userData">loolo</td>
-                        <td class="userData">lolo</td>
                         <td class="userData">ololo</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#usersDeleteModal" data-mdb-ripple-color="dark" title="Edit">
+                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
                                 <button disabled type="button" onclick="" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#deleteModal" data-mdb-ripple-color="dark" title="Delete">
@@ -107,7 +105,6 @@
                         </td>
                         <td class="userData">lolo</td>
                         <td class="userData">loolo</td>
-                        <td class="userData">lolo</td>
                         <td class="userData">ololo</td>
                         <td>
                             <div class="d-flex justify-content-around">
@@ -143,7 +140,12 @@
                     <div class="modal-body">
                         <form>
                             <div class="mb-3">
-                                <label for="recipient-name" class="col-form-label">Name:</label>
+                                <label for="recipient-name" class="col-form-label">First Name:</label>
+                                <input type="text" class="form-control modalInputs">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Last Name:</label>
                                 <input type="text" class="form-control modalInputs">
                             </div>
 
@@ -179,11 +181,6 @@
 
                             <div class="mb-3">
                                 <label for="message-text" class="col-form-label">Credentials:</label>
-                                <input class="form-control modalInputs"></input>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Password:</label>
                                 <input class="form-control modalInputs"></input>
                             </div>
 
