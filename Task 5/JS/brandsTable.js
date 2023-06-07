@@ -67,7 +67,6 @@
                     alert("Update successful!");
                     var table = document.getElementById("tableBody");
                     var row = table.getElementsByTagName("tr")[rowIndex];
-                
                     var tds = row.querySelectorAll("td"); 
                     for (var i = 0; i < tds.length; i++) {
                         if (i === 0)
@@ -166,26 +165,28 @@
     .then(response => response.json())
     .then(data => {
         const dataArray = data.data.map(({ brandID, ...brand }) => brand);
-        var tableBody = getElementById("tableBody");
+        var tableBody = document.getElementById("tableBody");
         tableBody.innerHTML = "";
 
         dataArray.forEach((brand, index) => {
             var row = generateRow(brand.brandID, index);
             tableBody.appendChild(row);
+            console.log(row);
+            console.log(brand.brandID);
             var tds = row.querySelectorAll("td");
             for (var i = 0; i < tds.length; i++) {
                 if (i === 0)
-                    tds[i].textContent = brand.brandID;
+                    tds[i].textContent = brand.Brand_ID;
                 if (i === 1)
-                    tds[i].textContent = brand.name;
+                    tds[i].textContent = brand.Name;
                 if (i === 2)
-                    tds[i].textContent = brand.province;
+                    tds[i].textContent = brand.Province;
                 if (i === 3)
-                    tds[i].textContent = brand.phoneNumber;
+                    tds[i].textContent = brand.Phone_Number;
                 if (i === 4)
-                    tds[i].textContent = brand.email;
+                    tds[i].textContent = brand.Email;
                 if (i === 5)
-                    tds[i].textContent = brand.postalCode;
+                    tds[i].textContent = brand.Postal_Code;
             }
         });
     })
