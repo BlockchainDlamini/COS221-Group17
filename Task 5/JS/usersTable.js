@@ -74,7 +74,7 @@ function prepareForUpdate(updateButton) {
     //     const columnName = columnNameElements[i].textContent;
     //     console.log(columnName);
     // }
-    const cols = document.getElementsByClassName("userData");
+    const cols = selectedRow.getElementsByClassName("userData");
     const modal = document.getElementsByClassName("modalInputs");
     var m = 0;
     var fullName = cols[0].innerHTML.split(" ");
