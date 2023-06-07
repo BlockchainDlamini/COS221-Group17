@@ -24,12 +24,9 @@ if ($result->num_rows === 1) {
 
     // echo "<script>localStorage.setItem('user_type', 'lala');localStorage.setItem('user_id', 'lolo');localStorage.setItem('logged_in', 'true')</script>";
 
-    // $_SESSION['user_type'] = $row['User_Type'];
-    // $_SESSION['user_id'] = $email;
-    // $_SESSION['logged_in'] = true;
-
-
-    echo "<script>sessionStorage.setItem('meme', 'lala')</script>";
+    $_SESSION['user_type'] = $row['User_Type'];
+    $_SESSION['user_id'] = $email;
+    $_SESSION['logged_in'] = true;
 
     header("Location: index.php");
     exit();

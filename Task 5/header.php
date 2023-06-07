@@ -41,19 +41,19 @@
                         <li class="nav-item" role="presentation">
                             <a class="nav-link <?= $about; ?> rounded-pill" href="about.php" type="button" role="tab" aria-selected="<?= $aboutSelected; ?>">About Us</a>
                         </li>
-                        <li class="nav-item signupLogin" role="presentation">
+                        <li class="nav-item signupLogin logiBtn" role="presentation">
                             <a class="nav-link rounded-pill" href="login.php" type="button" role="tab" aria-selected="false">Login</a>
                         </li>
-                        <li class="nav-item signupLogin" role="presentation">
+                        <li class="nav-item signupLogin signupBtn hidden" role="presentation">
                             <a class="nav-link rounded-pill" href="signup.php" type="button" role="tab" aria-selected="false">Signup</a>
                         </li>
-                        <div class="dropdown userAccountDiv hidden">
+                        <div class="dropdown userAccountDiv">
                             <button id="userAccountButton" class="nav-link dropdown-toggle" data-mdb-toggle="dropdown" aria-expanded="false" title="Account">
                                 <i class="fa-solid fa-user-gear fa-2xl"></i>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-sliders fa-lg me-2"></i>Preferences</a></li>
-                                <li><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-pen fa-lg me-2"></i>Admin</a></li>
+                                <li><a class="dropdown-item p-2 ps-3" href="winesTable.php"><i class="fa-solid fa-pen fa-lg me-2"></i>Admin</a></li>
                                 <li><a class="dropdown-item p-2 ps-3" href="#"><i class="fa-solid fa-right-from-bracket fa-lg me-2"></i>Logout</a></li>
                             </ul>
                         </div>
@@ -71,7 +71,7 @@
 
     </header>
 
-    <script type="application/javascript" src="header.js"></script>
+    <script type="application/javascript" src="JS/header.js"></script>
 
 </body>
 

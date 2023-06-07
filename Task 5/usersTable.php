@@ -55,68 +55,7 @@
                 </thead>
 
                 <tbody id="tableBody">
-                    <tr class="tableRow">
-                        <td>
-                            <div class="d-flex align-items-center ps-1">
-                                <i class="fa-solid fa-circle-user fa-2xl" style="width: 40px; height: 40px"></i>
-                                <div class="ms-3">
-                                    <p class="fw-bold mb-1 userData">John Doe</p>
-                                    <p class="text-muted mb-0 userData">john.doe@gmail.com</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="userData">Production</td>
-                        <td class="userData">lolodvd</td>
-                        <td class="userData">lololo</td>
-                        <td>
-                            <span class="badge badge-primary rounded-pill d-inline userData">Customer</span>
-                        </td>
-                        <td class="userData">lolo</td>
-                        <td class="userData">loolo</td>
-                        <td class="userData">ololo</td>
-                        <td>
-                            <div class="d-flex justify-content-around">
-                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Edit">
-                                    <i class="fa-regular fa-pen-to-square fa-xl"></i>
-                                </button>
-                                <button disabled type="button" onclick="" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#deleteModal" data-mdb-ripple-color="dark" title="Delete">
-                                    <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
 
-
-                    <tr class="tableRow">
-                        <td>
-                            <div class="d-flex align-items-center ps-1">
-                                <i class="fa-solid fa-circle-user fa-2xl" style="width: 40px; height: 40px"></i>
-                                <div class="ms-3">
-                                    <p class="fw-bold mb-1 userData">Jack sparrow</p>
-                                    <p class="text-muted mb-0 userData">jack.sparrow@gmail.com</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="userData">Production</td>
-                        <td class="userData">lolodvd</td>
-                        <td class="userData">lololo</td>
-                        <td>
-                            <span class="badge badge-danger rounded-pill d-inline userData">Manager</span>
-                        </td>
-                        <td class="userData">lolo</td>
-                        <td class="userData">loolo</td>
-                        <td class="userData">ololo</td>
-                        <td>
-                            <div class="d-flex justify-content-around">
-                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold" data-mdb-toggle="modal" data-mdb-target="#usersModal" data-mdb-ripple-color="dark" title="Edit">
-                                    <i class="fa-regular fa-pen-to-square fa-xl"></i>
-                                </button>
-                                <button disabled type="button" onclick="" class="btn btn-link btn-floating btn-sm fw-bold" data-mdb-toggle="modal" data-mdb-target="#deleteModal" data-mdb-ripple-color="dark" title="Delete">
-                                    <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
 

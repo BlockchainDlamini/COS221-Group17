@@ -50,6 +50,7 @@
 
     <script>
         function validateForm() {
+
             var email = document.getElementById("email").value;
             var emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 

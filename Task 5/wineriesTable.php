@@ -58,48 +58,7 @@
                 </thead>
 
                 <tbody id="tableBody">
-                    <tr class="tableRow">
-                        <td>1</td>
-                        <td>Chamonix Old Vine Steen</td>
-                        <td>alate</td>
-                        <td>lolodvd</td>
-                        <td>lololo</td>
-                        <td>lolo</td>
-                        <td>rrlolo</td>
-                        <td>rr</td>
-                        <td>
-                            <div class="d-flex justify-content-around">
-                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineriesModal" data-mdb-ripple-color="dark" title="Edit">
-                                    <i class="fa-regular fa-pen-to-square fa-xl"></i>
-                                </button>
-                                <button disabled type="button" onclick="" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#deleteModal" data-mdb-ripple-color="dark" title="Delete">
-                                    <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-
-
-                    <tr class="tableRow">
-                        <td>2</td>
-                        <td>Chamonix Old Vine Steen</td>
-                        <td>alate</td>
-                        <td>lolodvd</td>
-                        <td>lololo</td>
-                        <td>lolo</td>
-                        <td>lolo</td>
-                        <td>lolrt</td>
-                        <td>
-                            <div class="d-flex justify-content-around">
-                                <button disabled type="button" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#wineriesModal" data-mdb-ripple-color="dark" title="Edit">
-                                    <i class="fa-regular fa-pen-to-square fa-xl"></i>
-                                </button>
-                                <button disabled type="button" onclick="" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#deleteModal" data-mdb-ripple-color="dark" title="Delete">
-                                    <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                   
 
                 </tbody>
             </table>
