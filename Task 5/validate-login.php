@@ -11,13 +11,12 @@
     $connection = new Connect();
     $conn = $connection->getConnection();
 
-    $stmt = $conn->prepare("SELECT * FROM User WHERE Email=? AND 'Password'=?");
+    $stmt = $conn->prepare("SELECT * FROM User WHERE Email=? AND Password=?");
     $stmt->bind_param("ss", $email, $hashed_password); 
     $stmt->execute();
     
     $result = $stmt->get_result();
     if ($result->num_rows === 1) {
-        echo "passed";
         $row = $result->fetch_assoc();
         $_SESSION['user_type'] = $row['User_Type'];
         $_SESSION['user_id'] = $email;
@@ -25,7 +24,6 @@
         header("Location: index.php");
         exit();
     } else {
-        echo "failed";
         header("Location: login.php?error=incorrect username or password");
         exit();
     }

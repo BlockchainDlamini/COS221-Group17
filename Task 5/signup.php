@@ -23,36 +23,36 @@
 
         <div class="inputfield">
 
-        <input type = "text" id = "inputfirstname" placeholder="Firstname" class = "input">
+        <input type = "text" name="inputfirstname" id = "inputfirstname" placeholder="Firstname" class = "input">
         <i class='bx bx-user' ></i>
     <label></label>
-    <input type = "text" id = "inputsurname" placeholder="Surname" class = "input">
+    <input type = "text" name="inputsurname" id = "inputsurname" placeholder="Surname" class = "input">
     <i class='bx bx-user' ></i>
 
 
     <label></label>
-    <input id = "inputemail" placeholder="Email" class = "input" type = "email">
+    <input id = "inputemail" name="inputemail" placeholder="Email" class = "input" type = "email">
     <i class='bx bx-mail-send' ></i>
     <label></label>
-    <input id = "inputpassword" placeholder="Password" type = "Password" class = "input">
+    <input id = "inputpassword" name="inputpassword" placeholder="Password" type = "Password" class = "input">
     <i class='bx bx-lock-alt' ></i>
 
    
 
     <label></label>
-    <input id = "inputphonenumber" placeholder="Telephone Number" class = "input" type= "text">
+    <input id = "inputphonenumber" name="inputphonenumber" placeholder="Telephone Number" class = "input" type= "text">
     <i class='bx bx-phone' ></i>
     <label></label>
-    <input id = "inputstreetaddress" placeholder="Address" class = "input">
+    <input id = "inputstreetaddress" name="inputstreetaddress" placeholder="Address" class = "input">
     <i class='bx bx-building-house' ></i>
 
     <label></label>
-    <input type = "text" id = "inputpostalcode" placeholder="Postal Code" class = "input" type = "number">  
+    <input type = "text" id = "inputpostalcode" name="inputpostalcode" placeholder="Postal Code" class = "input" type = "number">  
     <i class='bx bx-dialpad' ></i>
 
 
         <div class="selectcontainer">
-        <select id = "inputprovice" class = "selector">
+        <select id = "inputprovice" class = "selector" name="inputprovice">
         <option>Gauteng</option>
         <option>Eastern Cape</option>
         <option>Western Cape</option>
