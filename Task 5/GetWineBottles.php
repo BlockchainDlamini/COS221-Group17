@@ -391,7 +391,9 @@ function getWinery($decode)
   if (isset($decode->Limit)) {
     $sql .= " LIMIT " . $decode->Limit;
   }
-  
+
+
+
   // Run the query via config.php
   $queryResults = Connect::instance()->runSelectQuery($sql);
 
@@ -423,7 +425,7 @@ function getWinery($decode)
 
 function getWineyard($decode)
 {
-  if($decode->Return != "*" || !isset($decode->Return ))
+  if ($decode->Return != "*" || !isset($decode->Return))
     errorHandling("Incorrect parameters", 400);
 
   $sql = "SELECT Wineyards.Wineyard_ID AS wineyardID, Wineyards.Winery_Name AS wineryName, Wineyards.Wineyard_Name AS wineyardName, Wineyards.Street_Address AS address, Wineyards.Province AS province, 
@@ -431,19 +433,16 @@ function getWineyard($decode)
 
   $response = Connect::instance()->runSelectQuery($sql);
 
-  if(!$response)
-  {
+  if (!$response) {
     $response = [
       'status' => 'success',
       'timestamp' => time(),
       'data' => "No matching response"
     ];
     return json_encode($response);
-  }
-  else if($response == null)
-  errorHandling('Error executing the database query.', 500);
-  else 
-  {
+  } else if ($response == null)
+    errorHandling('Error executing the database query.', 500);
+  else {
     $response = [
       'status' => 'success',
       'timestamp' => time(),
@@ -559,6 +558,7 @@ function getBrands($decode)
     return json_encode($response);
   }
 }
+
 
 function getUser($decode)
 {
@@ -1225,7 +1225,6 @@ function DeleteBrand($decode)
   }
 }
 
-
 function AppendUser($decode)
 {
   // Get the values from the JSON object
@@ -1245,28 +1244,11 @@ function AppendUser($decode)
   // Generate the SQL query to append the user data
   $sql = "INSERT INTO User (First_Name, Last_Name, Phone_Number, Email, Street_Address, Province, Postal_Code, User_Type, Department, Credentials, Preferences, Password)
           VALUES ('$firstName', '$lastName', '$phoneNumber', '$email', '$streetAddress', '$province', '$postalCode', '$userType', '$department', '$credentials', '$preferences', '$password')";
-          
-          //echo $sql;
 
   // Execute the SQL query to append the user data
-  // Connect::instance()->runInsertOrDelteQuery($sql);
-  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
-    {
-      $response = [
-        'status' => 'success',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
-    else
-    {
-      $response = [
-        'status' => 'fail',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
+  Connect::instance()->runInsertOrDelteQuery($sql);
 }
+
 
 
 function AppendWine($decode)
@@ -1296,44 +1278,64 @@ function AppendWine($decode)
   $year = $decode->AppendInfo->year;
   $productionDate = $decode->AppendInfo->productionDate;
 
-  // Generate the SQL queries to append the wine data
+  // Check if the brand name exists in the Brand table
+  $sqlBrandExists = "SELECT COUNT(*) AS count FROM Brand WHERE Name = '$brandName'";
+  $resultBrandExists = Connect::instance()->runSelectQuery($sqlBrandExists);
 
-   // Varietal table
-   $sqlVarietal = "INSERT INTO Varietal (Varietal_Name, Brand_Name, Residual_Sugar, pH, Alcohol_Percentage, Quality, Category_Name)
-   VALUES ('$varietalName', '$brandName', '$residualSugar', '$pH', '$alcoholPercent', '$quality', '$categoryName')";
+  if ($resultBrandExists && $resultBrandExists[0]['count'] > 0) {
+    // The brand name exists in the Brand table
 
+    // Check if the winery name exists in the Winery table
+    $sqlWineryExists = "SELECT COUNT(*) AS count FROM Winery WHERE Name = '$wineryName'";
+    $resultWineryExists = Connect::instance()->runSelectQuery($sqlWineryExists);
 
-  // WineBarrels table
-  $sqlWineBarrels = "INSERT INTO WineBarrels (Name, Year, Description, Cellaring_Potential, Varietal_ID, Winery_Name, Production_Date, Production_Method, Wineyard_Name)
-                     VALUES ('$name', '$year', '$description', '$cellaringPotential', (SELECT MAX(ID) FROM Varietal), '$wineryName', '$productionDate', '$productionMethod', '$wineyardName')";
+    if ($resultWineryExists && $resultWineryExists[0]['count'] > 0) {
+      // The winery name exists in the Winery table
 
-  // Production table
-  $sqlProduction = "INSERT INTO Production (Winery_Name, Brand_Name)
-                    VALUES ('$wineryName', '$brandName')";
+      // Insert into Varietal table
+      $sqlVarietal = "INSERT INTO Varietal (Varietal_Name, Brand_Name, Residual_Sugar, pH, Alcohol_Percentage, Quality, Category_Name)
+                      VALUES ('$varietalName', '$brandName', '$residualSugar', '$pH', '$alcoholPercent', '$quality', '$categoryName')";
+      Connect::instance()->runInsertOrDelteQuery($sqlVarietal);
+      echo $sqlVarietal;
 
-  // Bottle table
-  $sqlBottle = "INSERT INTO Bottle (Bottle_ID, Wine_Barrel_ID, Bottle_Size, Price, Num_Bottles_Made, Num_Bottles_Sold, Image_URL)
-                VALUES ((SELECT MAX(Bottle_ID) FROM Bottle) + 1, (SELECT MAX(ID) FROM WineBarrels), '$bottleSize', '$price', '$numBottlesMade', '$numBottlesSold', '$imageURL')";
+      // Get the Varietal_ID of the inserted row
+      $varietalID = Connect::instance()->getConnection()->insert_id;
 
+      // Insert into WineBarrels table
+      $sqlWineBarrels = "INSERT INTO WineBarrels (Name, Year, Description, Cellaring_Potential, Varietal_ID, Winery_Name, Production_Date, Production_Method, Wineyard_Name)
+                         VALUES ('$name', '$year', '$description', '$cellaringPotential', '$varietalID', '$wineryName', '$productionDate', '$productionMethod', '$wineyardName')";
+      Connect::instance()->runInsertOrDelteQuery($sqlWineBarrels);
+      echo $sqlWineBarrels;
 
-  // Award table
-  $sqlAward = "INSERT INTO Award (Wine_Barrel_ID, Award, Year, Details)
-               VALUES ((SELECT MAX(ID) FROM WineBarrels), '$awardName', '$awardYear', '$awardDetails')";
+      // Get the WineBarrel_ID of the inserted row
+      $wineBarrelID = 28;
+      //Connect::instance()->getConnection()->insert_id;
 
- // echo $sqlVarietal;
-  //echo $sqlWineBarrels;
- // echo $sqlProduction;
-  //echo $sqlBottle;
- // echo $sqlAward;
+      // Insert into Bottle table
+      $sqlBottle = "INSERT INTO Bottle (Wine_Barrel_ID, Bottle_Size, Price, Num_Bottles_Made, Num_Bottles_Sold, Image_URL)
+                    VALUES ('$wineBarrelID', '$bottleSize', '$price', '$numBottlesMade', '$numBottlesSold', '$imageURL')";
 
-  // Execute the SQL queries to append the wine data
-  
-  Connect::instance()->runInsertOrDelteQuery($sqlWineBarrels);
-  Connect::instance()->runInsertOrDelteQuery($sqlProduction);
-  Connect::instance()->runInsertOrDelteQuery($sqlVarietal);
-  Connect::instance()->runInsertOrDelteQuery($sqlBottle);
-  Connect::instance()->runInsertOrDelteQuery($sqlAward);
+                    echo $sqlBottle;
+
+      Connect::instance()->runInsertOrDelteQuery($sqlBottle);
+
+      // Insert into Award table
+      $sqlAward = "INSERT INTO Award (Wine_Barrel_ID, Award, Year, Details)
+                   VALUES ('$wineBarrelID', '$awardName', '$awardYear', '$awardDetails')";
+      Connect::instance()->runInsertOrDelteQuery($sqlAward);
+      echo $sqlAward;
+
+      echo "Wine data has been successfully appended!";
+    } else {
+      // The winery name does not exist
+      echo "The winery name '$wineryName' does not exist. Please add it to the Winery table.";
+    }
+  } else {
+    // The brand name does not exist
+    echo "The brand name '$brandName' does not exist. Please add it to the Brand table.";
+  }
 }
+
 
 
 function AppendWinery($decode)
@@ -1351,27 +1353,10 @@ function AppendWinery($decode)
   $sql = "INSERT INTO Winery (Name, Province, Postal_Code, Street_Address, Phone_Number, Email, Brand_Name)
           VALUES ('$name', '$province', '$postalCode', '$streetAddress', '$phoneNumber', '$email', '$brandName')";
 
-  //echo $sql;
-
-  // Execute the SQL query to append the user data
-  // Connect::instance()->runInsertOrDelteQuery($sql);
-  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
-    {
-      $response = [
-        'status' => 'success',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
-    else
-    {
-      $response = [
-        'status' => 'fail',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
+  // Execute the SQL query to append the winery data
+  Connect::instance()->runInsertOrDelteQuery($sql);
 }
+
 
 
 function AppendWineyard($decode)
@@ -1386,30 +1371,13 @@ function AppendWineyard($decode)
   $grapeVariety = $decode->AppendInfo->grapeVariety;
 
   // Generate the SQL query to append the wineyard data
-  $sql = "INSERT INTO Wineyards ( Winery_ID, Wineyard_Name, Winery_Name, Street_Address, Province, Postal_Code, Area, Grape_Variety)
-          VALUES ((SELECT Winery_ID FROM Winery WHERE Name = '$wineryName'), '$wineyardName', '$wineryName', '$streetAddress', '$province', '$postalCode', '$area', '$grapeVariety')";
+  $sql = "INSERT INTO Wineyards (Wineyard_ID, Winery_ID, Wineyard_Name, Winery_Name, Street_Address, Province, Postal_Code, Area, Grape_Variety)
+          VALUES ((SELECT MAX(Wineyard_ID) FROM Wineyards) + 1, (SELECT Winery_ID FROM Wineries WHERE Winery_Name = '$wineryName'), '$wineyardName', '$wineryName', '$streetAddress', '$province', '$postalCode', '$area', '$grapeVariety')";
 
-  //echo $sql;
-
-  // Execute the SQL query to append the user data
-  // Connect::instance()->runInsertOrDelteQuery($sql);
-  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
-    {
-      $response = [
-        'status' => 'success',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
-    else
-    {
-      $response = [
-        'status' => 'fail',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
+  // Execute the SQL query to append the wineyard data
+  Connect::instance()->runInsertOrDelteQuery($sql);
 }
+
 
 
 function AppendBrand($decode)
@@ -1427,23 +1395,9 @@ function AppendBrand($decode)
           VALUES ((SELECT MAX(Brand_ID) FROM Brand) + 1, '$name', '$phoneNumber', '$email', '$streetAddress', '$province', '$postalCode')";
 
   // Execute the SQL query to append the brand data
-  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
-    {
-      $response = [
-        'status' => 'success',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
-    else
-    {
-      $response = [
-        'status' => 'fail',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
+  Connect::instance()->runInsertOrDelteQuery($sql);
 }
+
 
 
 function AppendBrandRating($decode)
@@ -1458,23 +1412,9 @@ function AppendBrandRating($decode)
           VALUES ((SELECT Name FROM Brand WHERE Brand_ID = $brandID), $userID, $rating)";
 
   // Execute the SQL query to append the brand rating data
-  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
-    {
-      $response = [
-        'status' => 'success',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
-    else
-    {
-      $response = [
-        'status' => 'fail',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
+  Connect::instance()->runInsertOrDelteQuery($sql);
 }
+
 
 
 function AppendWineRating($decode)
@@ -1489,22 +1429,7 @@ function AppendWineRating($decode)
           VALUES ($userID, (SELECT Bottle_ID FROM Bottle WHERE Wine_Barrel_ID = $wineBarrelID), $rating)";
 
   // Execute the SQL query to append the wine rating data
-  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
-    {
-      $response = [
-        'status' => 'success',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
-    else
-    {
-      $response = [
-        'status' => 'fail',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
+  Connect::instance()->runInsertOrDelteQuery($sql);
 }
 
 
@@ -1520,22 +1445,7 @@ function AppendWineryRating($decode)
           VALUES ($userID, $wineryID, $rating)";
 
   // Execute the SQL query to append the winery rating data
-  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
-    {
-      $response = [
-        'status' => 'success',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
-    else
-    {
-      $response = [
-        'status' => 'fail',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
+  Connect::instance()->runInsertOrDelteQuery($sql);
 }
 
 
@@ -1552,21 +1462,5 @@ function AppendWineyardRating($decode)
           VALUES ($userID, $wineyardID, $rating)";
 
   // Execute the SQL query to append the wineyard rating data
-  if(Connect::instance()->runInsertOrDelteQuery($sql)=="true")
-    {
-      $response = [
-        'status' => 'success',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
-    else
-    {
-      $response = [
-        'status' => 'fail',
-        'timestamp' => time()
-      ];
-      return json_encode($response);
-    }
+  Connect::instance()->runInsertOrDelteQuery($sql);
 }
-?>
