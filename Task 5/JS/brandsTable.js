@@ -9,7 +9,6 @@
     }
 
     function prepareForUpdate(updateButton) {
-        //skip index 0 and index 12(row number and actions column)
         const selectedRow = updateButton.closest("tr");
         const cols = selectedRow.children;
         const modal = document.getElementsByClassName("modalInputs");
@@ -22,7 +21,7 @@
 
         const brandID = updateButton.getAttribute("data-brandID");
         const rowIndex = updateButton.getAttribute("data-rowIndex");
-        sessionStorage.setItem("brandID", brandID); //save the brandID to session storage
+        sessionStorage.setItem("brandID", brandID); 
         sessionStorage.setItem("rowIndex", rowIndex);
         console.log("BrandID: " + brandID);
         

@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once 'config.php';
+    require_once 'database.php';
 
     $email = sanitize_input($_POST['email']);
     $password = sanitize_input($_POST['password']);

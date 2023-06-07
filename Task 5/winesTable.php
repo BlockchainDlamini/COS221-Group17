@@ -78,7 +78,7 @@
                                 <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
-                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Delete">
+                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#deleteModal" data-mdb-ripple-color="dark" title="Delete">
                                     <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
                                 </button>
                             </div>
@@ -147,7 +147,7 @@
                                 <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Edit">
                                     <i class="fa-regular fa-pen-to-square fa-xl"></i>
                                 </button>
-                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="prepareForUpdate(this)" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#winesModal" data-mdb-ripple-color="dark" title="Delete">
+                                <button disabled type="button" onmouseup="preventRowExtension(this)" onclick="" class="btn btn-link btn-floating btn-sm fw-bold wineEdit" data-mdb-toggle="modal" data-mdb-target="#deleteModal" data-mdb-ripple-color="dark" title="Delete">
                                     <i class="fa-solid fa-trash fa-xl" style="color: #f83a3a;"></i>
                                 </button>
                             </div>
@@ -333,6 +333,25 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">CLOSE</button>
                         <button type="button" class="btn btn-primary">DONE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <i class="fa-solid fa-triangle-exclamation fa-xl me-3" style="color: #f2c72c;"></i>
+                        <h5 class="modal-title" id="deleteModalLabel">Warning</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-dark">Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-mdb-dismiss="modal">NO</button>
+                        <button type="button" class="btn btn-secondary">YES</button>
                     </div>
                 </div>
             </div>
