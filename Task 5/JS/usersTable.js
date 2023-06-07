@@ -35,9 +35,12 @@ fetch(url, {
 
             var theTable = document.getElementById("tableBody");
             theTable.appendChild(newRow);
-        })
+        });
+        var rowCount = $('.results .tableRow').length;
+        $('.rowCount').text(rowCount + ' items');
 
-    });
+    }
+    );
 
 
 function generateRow(userID, userType, rowIndex) {
